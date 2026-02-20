@@ -123,11 +123,32 @@ a:hover{opacity:.8}
 .faq-a{padding:0 24px;max-height:0;overflow:hidden;transition:all .3s ease;color:var(--dim);font-size:14px;line-height:1.7}
 .faq-a.open{padding:0 24px 20px;max-height:500px}
 
-/* Newsletter */
-.newsletter{max-width:600px;margin:0 auto;padding:60px 20px;text-align:center}
-.newsletter h3{font-size:24px;font-weight:800;margin-bottom:8px}
-.newsletter p{color:var(--dim);font-size:14px;margin-bottom:24px}
-.newsletter iframe{width:100%;border:none;border-radius:var(--radius);background:var(--card)}
+/* Newsletter — branded per site */
+.newsletter{max-width:640px;margin:0 auto;padding:40px 20px}
+.newsletter-box{background:linear-gradient(135deg,var(--card),var(--surface));border:2px solid var(--accent);border-radius:16px;padding:40px 32px;text-align:center;position:relative;overflow:hidden}
+.newsletter-box::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--accent)}
+.newsletter-box .nl-icon{font-size:48px;margin-bottom:12px}
+.newsletter-box h3{font-size:24px;font-weight:900;margin-bottom:8px;letter-spacing:-.5px}
+.newsletter-box .nl-sub{color:var(--dim);font-size:14px;margin-bottom:20px;line-height:1.5}
+.newsletter-box .nl-perks{display:flex;justify-content:center;gap:16px;margin-bottom:20px;flex-wrap:wrap}
+.newsletter-box .nl-perk{font-size:12px;color:var(--accent);font-weight:600;display:flex;align-items:center;gap:4px}
+.newsletter-box iframe{width:100%;border:none;border-radius:var(--radius);background:transparent}
+.newsletter-box .nl-trust{font-size:11px;color:var(--muted);margin-top:12px}
+
+/* Affiliate Banner */
+.aff-banner{max-width:1200px;margin:20px auto;padding:0 20px}
+.aff-banner-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 28px;border-radius:var(--radius);border:1px solid var(--border);flex-wrap:wrap}
+.aff-banner-text{flex:1;min-width:200px}
+.aff-banner-text h4{font-size:16px;font-weight:800;margin-bottom:4px}
+.aff-banner-text p{font-size:13px;color:var(--dim)}
+.aff-banner-btn{padding:10px 24px;border-radius:8px;font-size:14px;font-weight:700;white-space:nowrap;color:white;display:inline-flex;align-items:center;gap:6px}
+
+/* Daily Rewards Bar */
+.daily-bar{max-width:1200px;margin:0 auto;padding:12px 20px}
+.daily-bar-inner{display:flex;align-items:center;justify-content:center;gap:20px;padding:14px 24px;background:linear-gradient(90deg,var(--card),var(--surface));border:1px solid var(--accent);border-radius:var(--radius);flex-wrap:wrap;text-align:center}
+.daily-bar-inner .db-item{font-size:13px;font-weight:600;display:flex;align-items:center;gap:6px}
+.daily-bar-inner .db-check{color:var(--green);font-size:16px}
+.daily-bar-inner .db-pending{color:var(--muted);font-size:16px}
 
 /* Affiliate Bar */
 .affiliate-bar{max-width:1200px;margin:0 auto;padding:20px;text-align:center}
@@ -272,6 +293,17 @@ a:hover{opacity:.8}
 </div>
 </section>
 
+<!-- Daily Rewards Bar -->
+<div class="daily-bar">
+<div class="daily-bar-inner">
+<span style="font-weight:800;color:var(--monkey)">Daily Rewards:</span>
+<div class="db-item"><span class="db-check" id="dbVisit">&#9675;</span> Visit (done!)</div>
+<div class="db-item"><span class="db-pending" id="dbSpin">&#9675;</span> Free Spin</div>
+<div class="db-item"><span class="db-pending" id="dbShare">&#9675;</span> Share (+bonus spin)</div>
+<div class="db-item"><span class="db-pending" id="dbRefer">&#9675;</span> Refer a Friend</div>
+</div>
+</div>
+
 <!-- Content Sections -->
 <section class="sections">
 <h3>Why MonkeySingles?</h3>
@@ -310,6 +342,12 @@ a:hover{opacity:.8}
 </div>
 </section>
 
+<!-- Affiliate Banner 1 (between sections and tools) -->
+<div class="aff-banner"><div class="aff-banner-inner" style="background:linear-gradient(135deg,#06b6d415,var(--card));border-color:#06b6d440">
+<div class="aff-banner-text"><h4 style="color:#06b6d4">AI Dating Profile Helper</h4><p>Get 3x more matches with AI optimization</p></div>
+<a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" class="aff-banner-btn" style="background:#06b6d4">Try Free &rarr;</a>
+</div></div>
+
 <!-- Tools -->
 <section class="tools" id="tools">
 <h3>Free Tools</h3>
@@ -335,6 +373,12 @@ a:hover{opacity:.8}
 
 </div>
 </section>
+
+<!-- Affiliate Banner 2 (between tools and FAQ) -->
+<div class="aff-banner"><div class="aff-banner-inner" style="background:linear-gradient(135deg,#ff990015,var(--card));border-color:#ff990040">
+<div class="aff-banner-text"><h4 style="color:#ff9900">Date Night Essentials</h4><p>Everything for the perfect date</p></div>
+<a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" class="aff-banner-btn" style="background:#ff9900">Shop Now &rarr;</a>
+</div></div>
 
 <!-- FAQ -->
 <section class="faq" id="faq">
@@ -393,11 +437,20 @@ a:hover{opacity:.8}
 </div>
 </section>
 
-<!-- Newsletter -->
+<!-- Newsletter — Branded Email Collection -->
 <section class="newsletter">
-<h3>Stay in the Loop</h3>
-<p>Weekly insights, new tools, and exclusive deals. No spam, ever.</p>
+<div class="newsletter-box">
+<div class="nl-icon">💘</div>
+<h3>Your Dating Advantage</h3>
+<p class="nl-sub">Weekly dating tips, app deals, and profile hacks. Get more matches with less effort.</p>
+<div class="nl-perks">
+<span class="nl-perk">&#10003; Free weekly insights</span>
+<span class="nl-perk">&#10003; Exclusive deals</span>
+<span class="nl-perk">&#10003; Early access to tools</span>
+</div>
 <iframe data-src="https://embeds.beehiiv.com/6831d05b-f121-4e0d-951b-16f88ddd9ec3?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0;border-radius:0;background-color:transparent;" loading="lazy"></iframe>
+<p class="nl-trust">Join 10,000+ subscribers. Unsubscribe anytime. No spam, ever.</p>
+</div>
 </section>
 
 <!-- Live Data Panel (report + investments) -->
@@ -787,8 +840,12 @@ function showPrize(prize){
     prizeEl.innerHTML=`🎉 You won! <a href="${aff.url}" target="_blank" data-aff="${aff.aff}" style="color:var(--monkey);text-decoration:underline;font-weight:800">${aff.text}</a>`;
     document.getElementById('spinBtn').disabled=true;
   }
-  shareEl.innerHTML=`<p style="color:var(--dim);font-size:13px;margin-top:12px">Share your spin for a bonus entry tomorrow!</p>
-    <a href="https://x.com/intent/tweet?text=I%20just%20spun%20the%20wheel%20on%20${encodeURIComponent(location.hostname)}!%20Free%20daily%20spins%20%F0%9F%90%B5%20${encodeURIComponent(location.href)}%20@SpunkArt13" target="_blank" style="display:inline-block;margin-top:8px;padding:8px 20px;background:#000;color:white;border-radius:8px;font-size:13px;font-weight:600">Share on X</a>`;
+  const spinShareMsg=encodeURIComponent('I just won a prize spinning the free wheel on '+location.hostname+'! 🎰🐵 Get your free daily spin → '+location.href+' @SpunkArt13');
+  shareEl.innerHTML=`<p style="color:var(--dim);font-size:13px;margin-top:12px">Share for a BONUS spin tomorrow! 🎁</p>
+    <div style="display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap">
+    <a href="https://x.com/intent/tweet?text=${spinShareMsg}" target="_blank" style="padding:8px 20px;background:#000;color:white;border-radius:8px;font-size:13px;font-weight:600" onclick="markShareDone()">Share on X (+1 spin)</a>
+    <button onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';markShareDone()" style="padding:8px 20px;background:var(--accent);color:var(--bg);border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer">Copy Link (+1 spin)</button>
+    </div>`;
 }
 
 // ==========================================
@@ -801,7 +858,21 @@ function showPrize(prize){
   const refInput=document.getElementById('refLink');
   if(refInput)refInput.value=refLink;
   const shareXEl=document.getElementById('shareX');
-  if(shareXEl)shareXEl.href=`https://x.com/intent/tweet?text=Check%20out%20${encodeURIComponent(document.title)}%20%F0%9F%90%B5%20${encodeURIComponent(refLink)}%20@SpunkArt13`;
+  const shareMessages={
+    'directory':'Just found the best free business directory! AI-powered search is insane 🔍🐵',
+    'report':'Free live crypto & stock reports updated every minute 📊🐵',
+    'poker':'This free poker odds calculator is a game changer 🃏🐵',
+    'courses':'Found the best online courses at the lowest prices 🎓🐵',
+    'investments':'Free AI-powered portfolio tracker — better than paid tools 📈🐵',
+    'singles':'This AI dating profile optimizer actually works! Getting way more matches 💘🐵',
+    'coupons':'Never paying full price again — this coupon finder is incredible 🏷️🐵',
+    'gives':'Found the most transparent charity directory. Know exactly where your money goes 🤝🐵',
+    'charity':'Research any charity for free — ratings, financials, real impact data 📋🐵',
+    'repair':'This free repair guide saved me hundreds on fixing my own stuff 🔧🐵',
+    'rent':'Free rent calculator + market data for every neighborhood 🏠🐵'
+  };
+  const msg=shareMessages[SLUG]||'Check out '+document.title+' 🐵';
+  if(shareXEl)shareXEl.href=`https://x.com/intent/tweet?text=${encodeURIComponent(msg+' Free daily spin for rewards! '+refLink+' @SpunkArt13')}`;
 
   // Check if referred
   const p=new URLSearchParams(location.search);
@@ -825,6 +896,32 @@ function showPrize(prize){
     }
   }).catch(()=>{});
 })();
+
+// Daily rewards tracking
+(()=>{
+  const today=new Date().toDateString();
+  // Mark visit done
+  const dbVisit=document.getElementById('dbVisit');
+  if(dbVisit){dbVisit.textContent='\u2713';dbVisit.className='db-check'}
+  localStorage.setItem('monkey_visit_'+SLUG,today);
+  // Check if spin done today
+  const spunToday=localStorage.getItem('monkey_spin_'+SLUG)===today;
+  if(spunToday){const el=document.getElementById('dbSpin');if(el){el.textContent='\u2713';el.className='db-check'}}
+  // Check if shared today
+  const sharedToday=localStorage.getItem('monkey_shared_'+SLUG)===today;
+  if(sharedToday){const el=document.getElementById('dbShare');if(el){el.textContent='\u2713';el.className='db-check'}}
+})();
+
+function markShareDone(){
+  const today=new Date().toDateString();
+  localStorage.setItem('monkey_shared_'+SLUG,today);
+  const el=document.getElementById('dbShare');if(el){el.textContent='\u2713';el.className='db-check'}
+  // Award bonus spin for sharing
+  const bs=parseInt(localStorage.getItem('monkey_bonus_spins_'+SLUG)||'0');
+  localStorage.setItem('monkey_bonus_spins_'+SLUG,String(bs+1));
+  gtag('event','share_click',{site:SLUG});
+  fetch(`${FB_URL}/monkey/${SLUG}/shares.json`,{method:'POST',body:JSON.stringify({t:Date.now()})});
+}
 
 function copyRefLink(){
   const input=document.getElementById('refLink');
