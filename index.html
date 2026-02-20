@@ -225,6 +225,26 @@ a:hover{opacity:.8}
 .crypto-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 .crypto-cta-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;flex-wrap:wrap}
 .crypto-cta-row a{padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;color:white;display:inline-flex;align-items:center;gap:6px}
+.crypto-table tr{cursor:pointer}
+.coin-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9999;align-items:center;justify-content:center;padding:20px}
+.coin-modal-overlay.active{display:flex}
+.coin-modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;max-width:700px;width:100%;max-height:90vh;overflow-y:auto;padding:24px;position:relative}
+.coin-modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--muted);font-size:24px;cursor:pointer}
+.coin-modal-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.coin-modal-header img{width:40px;height:40px;border-radius:50%}
+.coin-modal-header h3{font-size:22px;font-weight:800;margin:0}
+.coin-modal-header .sym{color:var(--muted);font-size:14px;text-transform:uppercase}
+.coin-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:20px}
+.coin-stat{background:var(--card);padding:12px;border-radius:10px;border:1px solid var(--border)}
+.coin-stat .label{font-size:11px;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:4px}
+.coin-stat .val{font-size:16px;font-weight:700;font-variant-numeric:tabular-nums}
+.chart-wrap{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px}
+.chart-tabs{display:flex;gap:8px;margin-bottom:12px}
+.chart-tab{padding:6px 14px;border-radius:6px;font-size:12px;font-weight:700;border:1px solid var(--border);background:transparent;color:var(--dim);cursor:pointer}
+.chart-tab.active{background:var(--accent);color:var(--bg);border-color:var(--accent)}
+.chart-canvas{width:100%;height:250px}
+.coin-modal-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.coin-modal-cta a{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:700;color:white;text-decoration:none}
 @media(max-width:768px){
   .crypto-table .hide-mobile{display:none}
   .crypto-search{width:100%}
@@ -510,7 +530,7 @@ a:hover{opacity:.8}
 <div><span class="ref-num" id="refSpins">0</span><br><span style="font-size:12px;color:var(--muted)">Bonus Spins</span></div>
 </div>
 <div style="margin-top:16px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap">
-<a id="shareX" href="#" target="_blank" style="padding:8px 20px;background:#000;color:white;border-radius:8px;font-size:13px;font-weight:600">Share on X</a>
+<a id="shareX" href="javascript:void(0)" target="_blank" style="padding:8px 20px;background:#000;color:white;border-radius:8px;font-size:13px;font-weight:600">Share on X</a>
 <button onclick="shareWhatsApp()" style="padding:8px 20px;background:#25d366;color:white;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer">WhatsApp</button>
 <button onclick="shareTelegram()" style="padding:8px 20px;background:#0088cc;color:white;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer">Telegram</button>
 </div>
@@ -529,7 +549,7 @@ a:hover{opacity:.8}
 <span class="nl-perk">&#10003; Early access to tools</span>
 </div>
 <iframe data-src="https://embeds.beehiiv.com/6831d05b-f121-4e0d-951b-16f88ddd9ec3?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0;border-radius:0;background-color:transparent;" loading="lazy"></iframe>
-<p class="nl-trust">Join 10,000+ subscribers. Unsubscribe anytime. No spam, ever.</p>
+<p class="nl-trust">Join our newsletter. Unsubscribe anytime. No spam, ever.</p>
 </div>
 </section>
 
@@ -768,7 +788,7 @@ if(CRYPTO_SITES.includes(SLUG)){
     const q=(searchBox?searchBox.value.trim().toLowerCase():'');
     const filtered=q?data.filter(c=>c.name.toLowerCase().includes(q)||c.symbol.toLowerCase().includes(q)):data;
     if(!tbody)return;
-    tbody.innerHTML=filtered.map(c=>`<tr>
+    tbody.innerHTML=filtered.map(c=>`<tr data-coin-id="${c.id}">
       <td class="rank">${c.market_cap_rank||'—'}</td>
       <td><div class="coin-cell"><img src="${c.image}" alt="${c.symbol}" loading="lazy"><span class="coin-name">${c.name}</span><span class="coin-sym">${c.symbol}</span></div></td>
       <td class="price-val">${fmtPrice(c.current_price)}</td>
@@ -792,6 +812,9 @@ if(CRYPTO_SITES.includes(SLUG)){
     });
     renderTable(cryptoData);
   }
+
+  // Fallback: if still Loading after 10s, show unavailable
+  setTimeout(()=>{if(updateBadge&&updateBadge.textContent==='Loading...')updateBadge.textContent='Rates unavailable'},10000);
 
   async function loadTop100(){
     try{
@@ -1174,61 +1197,65 @@ function runTool(idx){
   gtag('event','tool_use',{tool_name:'tool_'+idx,query:q,site:SLUG});
   fetch(`${FB_URL}/monkey/${SLUG}/tools.json`,{method:'POST',body:JSON.stringify({idx,q,t:Date.now()})});
 
-  // Generate helpful response based on site type
-  const responses={
-    'directory':[
-      `Found results for "<strong>${q}</strong>". Top businesses in this category are highly rated with 4.5+ stars. <a href="https://www.google.com/search?q=${encodeURIComponent(q+' near me')}" target="_blank" style="color:var(--accent)">View full results &rarr;</a>`,
-      `We found several options for "<strong>${q}</strong>". For AI-powered business tools, try <a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" style="color:var(--accent)">CustomGPT</a> to build your own search.`
-    ],
-    'report':[
-      `Market data for "<strong>${q}</strong>" is loading from live feeds. For real-time trading, <a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase" style="color:var(--accent)">start on Coinbase (get $10 free) &rarr;</a>`,
-      `Analysis for "<strong>${q}</strong>": Check the live price panel above for real-time data. Secure your holdings with <a href="https://shop.ledger.com/?r=0553c9ea1441" target="_blank" data-aff="ledger" style="color:var(--accent)">Ledger hardware wallet &rarr;</a>`
-    ],
-    'poker':[
-      `Analyzing "<strong>${q}</strong>". For poker odds calculations, your equity depends on position, stack sizes, and opponent ranges. Practice free at <a href="https://stake.com/?c=MyXSehCn" target="_blank" data-aff="stake" style="color:var(--accent)">Stake.com &rarr;</a>`,
-      `Hand analysis for "<strong>${q}</strong>": Consider your position and the board texture. Get more strategy at <a href="https://shuffle.com/?r=q94atl9m05" target="_blank" data-aff="shuffle" style="color:var(--accent)">Shuffle &rarr;</a>`
-    ],
-    'courses':[
-      `Found courses matching "<strong>${q}</strong>" across multiple platforms. Prices range from free to $199. For AI-powered learning, try <a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" style="color:var(--accent)">CustomGPT &rarr;</a>`,
-      `Top-rated courses for "<strong>${q}</strong>" are available on multiple platforms. Find books on this topic at <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>`
-    ],
-    'investments':[
-      `Market analysis for "<strong>${q}</strong>": Check the live data panel for current prices. Start investing with <a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase" style="color:var(--accent)">Coinbase ($10 free) &rarr;</a>`,
-      `Screening results for "<strong>${q}</strong>". For event-based predictions, try <a href="https://kalshi.com/sign-up/?referral=6b72a842-a7f3-46b2-b8f4-2e3e8b498712" target="_blank" data-aff="kalshi" style="color:var(--accent)">Kalshi &rarr;</a>`
-    ],
-    'singles':[
-      `Profile tips for "<strong>${q}</strong>": Be specific, authentic, and show (don't tell). For AI-powered optimization, try <a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" style="color:var(--accent)">CustomGPT &rarr;</a>`,
-      `Dating advice for "<strong>${q}</strong>": The data shows authenticity and humor get the most matches. Check our guides above for more tips.`
-    ],
-    'coupons':[
-      `Searching coupons for "<strong>${q}</strong>". Best deals found on <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>. Check back hourly for new codes!`,
-      `Found potential savings for "<strong>${q}</strong>". Pro tip: Stack cashback with coupons for maximum savings. Shop at <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>`
-    ],
-    'gives':[
-      `Found causes matching "<strong>${q}</strong>". Top-rated charities in this area have 90%+ program spending ratios. Predict outcomes on <a href="https://everyx.io/register?ref=AYHl" target="_blank" data-aff="everyx" style="color:var(--accent)">EveryX &rarr;</a>`,
-    ],
-    'charity':[
-      `Charity research for "<strong>${q}</strong>": Look for organizations with transparent financials, high program ratios, and measurable outcomes. Explore on <a href="https://everyx.io/register?ref=AYHl" target="_blank" data-aff="everyx" style="color:var(--accent)">EveryX &rarr;</a>`,
-    ],
-    'repair':[
-      `Repair guide for "<strong>${q}</strong>": Check difficulty rating before starting. Find exact replacement parts on <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon (next-day delivery) &rarr;</a>`,
-      `DIY estimate for "<strong>${q}</strong>": Self-repair typically saves 60-80% vs professional. Get tools on <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>`
-    ],
-    'rent':[
-      `Rental analysis for "<strong>${q}</strong>": The 30% rule suggests your rent should not exceed 30% of gross income. Find everything for your new place on <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>`,
-    ]
+  // Generate helpful response and redirect to a real resource
+  const searchUrl=(query)=>'https://www.google.com/search?q='+encodeURIComponent(query);
+  const cgUrl=(query)=>'https://www.coingecko.com/en/search?query='+encodeURIComponent(query);
+
+  const handlers={
+    'directory':()=>{
+      const url=searchUrl(q+' near me');
+      return `Searching for "<strong>${q}</strong>" near you. <a href="${url}" target="_blank" style="color:var(--accent)">View results on Google &rarr;</a>`;
+    },
+    'coupons':()=>{
+      const url=searchUrl(q+' coupon code promo');
+      return `Looking for coupons for "<strong>${q}</strong>". <a href="${url}" target="_blank" style="color:var(--accent)">See available coupons &rarr;</a>`;
+    },
+    'repair':()=>{
+      const url=searchUrl(q+' repair guide DIY');
+      return `Finding repair guides for "<strong>${q}</strong>". <a href="${url}" target="_blank" style="color:var(--accent)">View repair guides &rarr;</a>`;
+    },
+    'rent':()=>{
+      const url=searchUrl(q+' apartments for rent');
+      return `Searching rentals for "<strong>${q}</strong>". The 30% rule: keep rent under 30% of gross income. <a href="${url}" target="_blank" style="color:var(--accent)">View listings &rarr;</a>`;
+    },
+    'report':()=>{
+      const url=cgUrl(q);
+      return `Looking up "<strong>${q}</strong>" on CoinGecko for live market data. <a href="${url}" target="_blank" style="color:var(--accent)">View on CoinGecko &rarr;</a>`;
+    },
+    'investments':()=>{
+      const url=cgUrl(q);
+      return `Researching "<strong>${q}</strong>". <a href="${url}" target="_blank" style="color:var(--accent)">View live data on CoinGecko &rarr;</a>`;
+    },
+    'poker':()=>{
+      return `<strong>Pre-flop Hand Rankings (${q}):</strong><br>` +
+        `<strong>Tier 1:</strong> AA, KK, QQ, AKs<br>` +
+        `<strong>Tier 2:</strong> JJ, TT, AQs, AKo, AJs<br>` +
+        `<strong>Tier 3:</strong> 99, 88, ATs, AQo, KQs, KJs<br>` +
+        `<strong>Tier 4:</strong> 77, 66, AJo, KQo, QJs, JTs<br>` +
+        `<em>Tip:</em> Position matters — play tighter from early position, wider from the button. Suited connectors gain value in multiway pots.`;
+    },
+    'courses':()=>{
+      const url=searchUrl(q+' online course');
+      return `Searching courses for "<strong>${q}</strong>". <a href="${url}" target="_blank" style="color:var(--accent)">Find courses &rarr;</a>`;
+    },
+    'singles':()=>{
+      const url=searchUrl(q+' dating tips advice');
+      return `Looking up advice for "<strong>${q}</strong>". <a href="${url}" target="_blank" style="color:var(--accent)">See dating tips &rarr;</a>`;
+    },
+    'gives':()=>{
+      const url=searchUrl(q+' charity donate');
+      return `Searching for causes related to "<strong>${q}</strong>". <a href="${url}" target="_blank" style="color:var(--accent)">Find charities &rarr;</a>`;
+    },
+    'charity':()=>{
+      const url=searchUrl(q+' nonprofit charity rating');
+      return `Researching charities for "<strong>${q}</strong>". <a href="${url}" target="_blank" style="color:var(--accent)">View charity info &rarr;</a>`;
+    }
   };
-  const siteResponses=responses[SLUG]||[`Results for "<strong>${q}</strong>" are loading. Check back soon for full analysis.`];
-  const response=siteResponses[Math.floor(Math.random()*siteResponses.length)];
+  const handler=handlers[SLUG]||(()=>`Searching for "<strong>${q}</strong>". <a href="${searchUrl(q)}" target="_blank" style="color:var(--accent)">View results &rarr;</a>`);
+  const response=handler();
 
   setTimeout(()=>{
     result.innerHTML=response;
-    // Track affiliate clicks in results
-    result.querySelectorAll('a[data-aff]').forEach(a=>{
-      a.addEventListener('click',function(){
-        gtag('event','affiliate_click',{url:this.href,site:SLUG,affiliate:this.dataset.aff,source:'tool_result'});
-      });
-    });
   },800);
 }
 
@@ -1303,6 +1330,154 @@ function shareTelegram(){
   window.open(`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent('Check out '+document.title)}`,`_blank`);
   gtag('event','share_telegram',{site:SLUG});
 }
+
+// ============================================================
+// COIN CHART MODAL
+// ============================================================
+(function(){
+  // Create modal
+  const overlay=document.createElement('div');
+  overlay.className='coin-modal-overlay';
+  overlay.id='coinModal';
+  overlay.innerHTML=`<div class="coin-modal">
+    <button class="coin-modal-close" onclick="closeCoinModal()">&times;</button>
+    <div class="coin-modal-header" id="cmHeader"></div>
+    <div class="coin-stats" id="cmStats"></div>
+    <div class="chart-wrap">
+      <div class="chart-tabs" id="cmTabs"></div>
+      <canvas class="chart-canvas" id="cmChart"></canvas>
+    </div>
+    <div class="coin-modal-cta" id="cmCta"></div>
+  </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click',e=>{if(e.target===overlay)closeCoinModal()});
+
+  // Make table rows clickable
+  const tbody=document.getElementById('cryptoBody');
+  if(tbody) tbody.addEventListener('click',e=>{
+    const tr=e.target.closest('tr');
+    if(!tr||!tr.dataset.coinId)return;
+    const coin=cryptoData.find(c=>c.id===tr.dataset.coinId);
+    if(coin)openCoinModal(coin);
+  });
+
+  window.closeCoinModal=function(){overlay.classList.remove('active');document.body.style.overflow=''};
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCoinModal()});
+
+  window.openCoinModal=function(c){
+    overlay.classList.add('active');
+    document.body.style.overflow='hidden';
+    const h=document.getElementById('cmHeader');
+    const s=document.getElementById('cmStats');
+    const cta=document.getElementById('cmCta');
+    const ch24=c.price_change_percentage_24h||0;
+    const up=ch24>=0;
+
+    h.innerHTML=`<img src="${c.image}" alt="${c.symbol}"><div><h3>${c.name} <span class="sym">${c.symbol}</span></h3><div style="font-size:24px;font-weight:800;margin-top:4px">${fmtPrice(c.current_price)} <span class="${up?'pct-up':'pct-down'}" style="font-size:14px">${up?'+':''}${ch24.toFixed(2)}%</span></div></div>`;
+
+    s.innerHTML=`
+      <div class="coin-stat"><div class="label">Market Cap</div><div class="val">${fmtBig(c.market_cap)}</div></div>
+      <div class="coin-stat"><div class="label">24h Volume</div><div class="val">${fmtBig(c.total_volume)}</div></div>
+      <div class="coin-stat"><div class="label">24h High</div><div class="val">${fmtPrice(c.high_24h||0)}</div></div>
+      <div class="coin-stat"><div class="label">24h Low</div><div class="val">${fmtPrice(c.low_24h||0)}</div></div>
+      <div class="coin-stat"><div class="label">Circulating</div><div class="val">${c.circulating_supply?fmtBig(c.circulating_supply).replace('$',''):'—'}</div></div>
+      <div class="coin-stat"><div class="label">ATH</div><div class="val">${fmtPrice(c.ath||0)}</div></div>`;
+
+    cta.innerHTML=`
+      <a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase" style="background:#0052ff">Buy on Coinbase</a>
+      <a href="https://shop.ledger.com/?r=0553c9ea1441" target="_blank" data-aff="ledger" style="background:#ff5500">Secure with Ledger</a>
+      <a href="https://www.coingecko.com/en/coins/${c.id}" target="_blank" style="background:var(--accent)">View on CoinGecko</a>`;
+
+    // Chart tabs
+    const tabs=document.getElementById('cmTabs');
+    const periods=[{label:'24H',days:1},{label:'7D',days:7},{label:'30D',days:30},{label:'90D',days:90},{label:'1Y',days:365}];
+    tabs.innerHTML=periods.map((p,i)=>`<button class="chart-tab${i===1?' active':''}" onclick="loadChart('${c.id}',${p.days},this)">${p.label}</button>`).join('');
+    loadChart(c.id,7,tabs.children[1]);
+    gtag('event','coin_view',{coin:c.symbol,site:SLUG});
+  };
+
+  window.loadChart=async function(coinId,days,btn){
+    // Highlight tab
+    document.querySelectorAll('.chart-tab').forEach(t=>t.classList.remove('active'));
+    if(btn)btn.classList.add('active');
+
+    const canvas=document.getElementById('cmChart');
+    const ctx=canvas.getContext('2d');
+    const W=canvas.parentElement.clientWidth-32;
+    const H=250;
+    canvas.width=W*2;canvas.height=H*2;
+    canvas.style.width=W+'px';canvas.style.height=H+'px';
+    ctx.scale(2,2);
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle='var(--muted)||#555';ctx.font='13px system-ui';ctx.textAlign='center';
+    ctx.fillText('Loading chart...',W/2,H/2);
+
+    try{
+      const r=await fetch(`https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${days}`);
+      if(!r.ok)throw new Error('API error');
+      const d=await r.json();
+      const prices=d.prices;
+      if(!prices||!prices.length)throw new Error('No data');
+
+      ctx.clearRect(0,0,W,H);
+      const pad={t:20,r:10,b:30,l:60};
+      const cw=W-pad.l-pad.r;
+      const ch=H-pad.t-pad.b;
+      const vals=prices.map(p=>p[1]);
+      const min=Math.min(...vals);
+      const max=Math.max(...vals);
+      const range=max-min||1;
+      const isUp=vals[vals.length-1]>=vals[0];
+      const lineColor=isUp?'#00ff66':'#ef4444';
+
+      // Grid lines
+      ctx.strokeStyle='rgba(255,255,255,0.06)';ctx.lineWidth=1;
+      for(let i=0;i<5;i++){
+        const y=pad.t+ch*(i/4);
+        ctx.beginPath();ctx.moveTo(pad.l,y);ctx.lineTo(W-pad.r,y);ctx.stroke();
+        const v=max-range*(i/4);
+        ctx.fillStyle='#888';ctx.font='10px system-ui';ctx.textAlign='right';
+        ctx.fillText(v>=1?'$'+v.toLocaleString(undefined,{maximumFractionDigits:2}):'$'+v.toFixed(4),pad.l-6,y+3);
+      }
+
+      // Time labels
+      ctx.textAlign='center';ctx.fillStyle='#888';ctx.font='10px system-ui';
+      const labelCount=Math.min(6,prices.length);
+      for(let i=0;i<labelCount;i++){
+        const idx=Math.floor(i*prices.length/(labelCount-1||1));
+        const p=prices[Math.min(idx,prices.length-1)];
+        const x=pad.l+(idx/(prices.length-1))*cw;
+        const dt=new Date(p[0]);
+        const lbl=days<=1?dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}):dt.toLocaleDateString([],{month:'short',day:'numeric'});
+        ctx.fillText(lbl,x,H-pad.b+16);
+      }
+
+      // Price line
+      ctx.beginPath();
+      ctx.strokeStyle=lineColor;ctx.lineWidth=2;ctx.lineJoin='round';
+      prices.forEach((p,i)=>{
+        const x=pad.l+(i/(prices.length-1))*cw;
+        const y=pad.t+ch*(1-(p[1]-min)/range);
+        i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+      });
+      ctx.stroke();
+
+      // Gradient fill
+      const lastX=pad.l+cw;
+      const lastY=pad.t+ch*(1-(vals[vals.length-1]-min)/range);
+      ctx.lineTo(lastX,pad.t+ch);ctx.lineTo(pad.l,pad.t+ch);ctx.closePath();
+      const grad=ctx.createLinearGradient(0,pad.t,0,pad.t+ch);
+      grad.addColorStop(0,isUp?'rgba(0,255,102,0.15)':'rgba(239,68,68,0.15)');
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=grad;ctx.fill();
+
+    }catch(e){
+      ctx.clearRect(0,0,W,H);
+      ctx.fillStyle='#888';ctx.font='13px system-ui';ctx.textAlign='center';
+      ctx.fillText('Chart unavailable — try again later',W/2,H/2);
+    }
+  };
+})();
 </script>
 
 </body>
