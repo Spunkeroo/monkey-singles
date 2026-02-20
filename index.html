@@ -853,7 +853,7 @@ if(CRYPTO_SITES.includes(SLUG)){
   });
   if(searchBox)searchBox.addEventListener('input',()=>renderTable(cryptoData));
 
-  requestIdleCallback(()=>{loadTop100();setInterval(loadTop100,30000)},{timeout:1000});
+  requestIdleCallback(()=>{loadTop100();setInterval(loadTop100,10000)},{timeout:1000});
 } else if(PRICE_SITES.includes(SLUG)){
   // Small price banner for other sites
   const livePanel=document.getElementById('liveData');
@@ -869,7 +869,7 @@ if(CRYPTO_SITES.includes(SLUG)){
         grid.innerHTML=coins.map(c=>{const p=d[c.id];if(!p)return'';const price=p.usd;const change=p.usd_24h_change||0;const up=change>=0;return`<div class="price-card"><div><div class="coin">${c.sym}</div><div style="font-size:11px;color:var(--muted)">${c.name}</div></div><div style="text-align:right"><div class="price">$${price.toLocaleString(undefined,{maximumFractionDigits:price>100?0:2})}</div><span class="change ${up?'up':'down'}">${up?'+':''}${change.toFixed(1)}%</span></div></div>`}).join('');
       }catch(e){}
     }
-    requestIdleCallback(()=>{loadPrices();setInterval(loadPrices,60000)},{timeout:2000});
+    requestIdleCallback(()=>{loadPrices();setInterval(loadPrices,10000)},{timeout:2000});
   }
 }
 
