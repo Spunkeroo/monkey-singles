@@ -304,14 +304,14 @@ a:hover{opacity:.8}
   .hero h2{font-size:clamp(28px,5vw,48px)}
   .hero p{font-size:16px;padding:0 8px}
   .hero-stats{gap:24px}
-  .hero-cta{width:100%;justify-content:center;padding:14px 24px}
+  .hero-cta{width:100%;justify-content:center;padding:14px 24px;min-height:44px}
   .sections-grid,.tools-grid{grid-template-columns:1fr}
   .section-card{padding:20px}
   .tool-card{padding:24px}
   .tool-input-wrap{flex-direction:column}
   .tool-go{width:100%;text-align:center}
   .faq{padding:40px 12px}
-  .faq-q{padding:16px;font-size:14px}
+  .faq-q{padding:16px;font-size:14px;min-height:44px}
   .faq-a.open{padding:0 16px 16px}
   .newsletter{padding:40px 12px}
   .newsletter-box{padding:28px 16px}
@@ -326,43 +326,49 @@ a:hover{opacity:.8}
   .crypto-ticker{height:32px}
   .ticker-item{font-size:11px;gap:4px}
   .ticker-item img{width:14px;height:14px}
-  .crypto-section{padding:16px 12px}
-  .crypto-header{flex-direction:column;align-items:flex-start}
+  .crypto-section{padding:16px 8px;width:100%;box-sizing:border-box}
+  .crypto-header{flex-direction:column;align-items:center;text-align:center}
   .crypto-header h3{font-size:20px}
-  .crypto-search{width:100%}
+  .crypto-search{width:100%;min-height:44px;font-size:16px;padding:10px 14px}
   .crypto-table .hide-mobile{display:none}
-  .crypto-table td,.crypto-table th{padding:8px 6px;font-size:12px}
+  .crypto-table td,.crypto-table th{padding:10px 6px;font-size:12px}
+  .crypto-table tr{min-height:44px}
   .crypto-scroll{max-height:500px}
-  .crypto-cta-row{flex-direction:column;align-items:stretch}
-  .crypto-cta-row a{text-align:center;width:100%}
-  .live-data{margin:12px 0}
-  .price-card{padding:12px;flex-direction:column;gap:8px;align-items:flex-start}
-  .price-card .price{font-size:16px}
+  .crypto-cta-row{flex-direction:column;align-items:stretch;padding:0 4px}
+  .crypto-cta-row a{text-align:center;width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;box-sizing:border-box}
+  .live-data{margin:12px 0;padding:0 4px}
+  .live-data > div{padding:16px 8px}
+  #priceGrid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))!important;gap:10px!important}
+  .price-card{padding:14px 12px;flex-direction:row;gap:8px;align-items:center;text-align:left;min-height:44px}
+  .price-card .price{font-size:15px}
+  .price-card .coin{font-size:14px}
+  .live-data a{min-height:44px;padding:12px 16px!important;font-size:13px!important;width:100%;text-align:center;justify-content:center;box-sizing:border-box}
   .spin-section{padding:30px 12px}
   #spinWheel{max-width:280px}
-  .spin-btn{padding:14px 36px;font-size:16px;width:100%}
+  .spin-btn{padding:14px 36px;font-size:16px;width:100%;min-height:48px}
   .spin-prize{font-size:15px;padding:16px}
   .referral-section{padding:30px 12px}
   .ref-link-box{flex-direction:column}
   .ref-input{text-align:center;font-size:13px}
-  .ref-copy-btn{text-align:center;padding:12px}
+  .ref-copy-btn{text-align:center;padding:12px;min-height:44px}
   .affiliate-bar{padding:16px 12px}
   .affiliate-links{gap:8px}
-  .affiliate-links a{padding:6px 12px;font-size:12px;flex:1 1 auto;text-align:center;min-width:120px}
+  .affiliate-links a{padding:10px 12px;font-size:12px;flex:1 1 auto;text-align:center;min-width:120px;min-height:44px;display:flex;align-items:center;justify-content:center}
   .aff-banner{padding:0 12px}
   .aff-banner-inner{flex-direction:column;text-align:center;padding:16px}
   .aff-banner-btn{width:100%;text-align:center;justify-content:center}
   .daily-bar{padding:8px 12px}
   .daily-bar-inner{flex-direction:column;gap:10px;padding:12px 16px}
-  .sticky-cta .sticky-btn{font-size:12px;padding:6px 14px}
+  .sticky-cta .sticky-btn{font-size:12px;padding:8px 14px;min-height:44px}
   .coin-modal{padding:16px;max-width:95vw}
   .coin-modal-header h3{font-size:18px}
+  .coin-modal-close{min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center}
   .coin-stats{grid-template-columns:repeat(2,1fr);gap:8px}
   .coin-stat .val{font-size:14px}
   .chart-tabs{flex-wrap:wrap;gap:6px}
-  .chart-tab{padding:5px 10px;font-size:11px}
+  .chart-tab{padding:8px 12px;font-size:11px;min-height:44px;display:flex;align-items:center;justify-content:center}
   .coin-modal-cta{flex-direction:column}
-  .coin-modal-cta a{text-align:center;width:100%}
+  .coin-modal-cta a{text-align:center;width:100%;min-height:44px;display:flex;align-items:center;justify-content:center}
   .trending{padding:16px 12px}
   #trendingContent{grid-template-columns:1fr}
   .trend-card{padding:16px}
@@ -398,7 +404,9 @@ a:hover{opacity:.8}
   .network-bar a{font-size:9px;padding:2px 5px}
   #spinWheel{max-width:240px}
   .spin-btn{font-size:14px;padding:12px 24px}
-  .crypto-table td,.crypto-table th{padding:6px 4px;font-size:11px}
+  .crypto-table td,.crypto-table th{padding:8px 4px;font-size:11px}
+  .crypto-table tr{min-height:44px}
+  #priceGrid{grid-template-columns:1fr 1fr!important}
   .coin-modal{padding:12px}
   .coin-stats{grid-template-columns:1fr 1fr}
   .coin-stat{padding:10px}
@@ -674,11 +682,11 @@ a:hover{opacity:.8}
 <div class="live-data" id="liveData" style="display:none">
 <div style="max-width:1200px;margin:0 auto;padding:20px">
 <h3 style="font-size:20px;font-weight:800;margin-bottom:16px;text-align:center">Live Market Data</h3>
-<div id="priceGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px"></div>
-<div style="text-align:center;margin-top:16px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px">
-<a href="https://stake.com/?c=MyXSehCn" target="_blank" data-aff="stake" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#1475e1;color:white;border-radius:var(--radius);font-weight:700;font-size:14px">Trade on Stake →</a>
-<a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#0052ff;color:white;border-radius:var(--radius);font-weight:700;font-size:14px">Start Trading on Coinbase →</a>
-<a href="https://shop.ledger.com/?r=0553c9ea1441" target="_blank" data-aff="ledger" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#ff5500;color:white;border-radius:var(--radius);font-weight:700;font-size:14px">Secure with Ledger →</a>
+<div id="priceGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px"></div>
+<div class="crypto-cta-row" style="text-align:center;margin-top:16px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px">
+<a href="https://stake.com/?c=MyXSehCn" target="_blank" data-aff="stake" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#1475e1;color:white;border-radius:var(--radius);font-weight:700;font-size:14px;min-height:44px">Trade on Stake →</a>
+<a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#0052ff;color:white;border-radius:var(--radius);font-weight:700;font-size:14px;min-height:44px">Start Trading on Coinbase →</a>
+<a href="https://shop.ledger.com/?r=0553c9ea1441" target="_blank" data-aff="ledger" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#ff5500;color:white;border-radius:var(--radius);font-weight:700;font-size:14px;min-height:44px">Secure with Ledger →</a>
 </div>
 </div>
 </div>
