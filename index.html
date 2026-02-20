@@ -789,20 +789,39 @@ let spinning=false,spinAngle=0;
 
 function drawWheel(){
   if(!ctx)return;
-  const cx=160,cy=160,r=150;
+  const cx=160,cy=160,r=148;
+  ctx.clearRect(0,0,320,320);
+  // outer ring
+  ctx.beginPath();ctx.arc(cx,cy,r+2,0,Math.PI*2);ctx.fillStyle='#1a1a28';ctx.fill();
   prizes.forEach((p,i)=>{
     const start=i*arc-Math.PI/2+spinAngle;
     ctx.beginPath();ctx.moveTo(cx,cy);
     ctx.arc(cx,cy,r,start,start+arc);
+    ctx.closePath();
     ctx.fillStyle=typeof p.color==='string'&&p.color.startsWith('#')?p.color:'#8b5cf6';
-    ctx.fill();ctx.strokeStyle='#1a1a28';ctx.lineWidth=2;ctx.stroke();
+    ctx.fill();ctx.strokeStyle='#0a0a10';ctx.lineWidth=2;ctx.stroke();
+    // text
     ctx.save();ctx.translate(cx,cy);ctx.rotate(start+arc/2);
-    ctx.fillStyle='white';ctx.font='bold 11px system-ui,sans-serif';ctx.textAlign='center';
-    ctx.fillText(p.text,r/2+10,4);ctx.restore();
+    ctx.fillStyle='#fff';ctx.font='bold 13px -apple-system,system-ui,sans-serif';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.shadowColor='rgba(0,0,0,0.6)';ctx.shadowBlur=3;
+    ctx.fillText(p.text,r*0.58,0);
+    ctx.shadowBlur=0;ctx.restore();
   });
-  // pointer
-  ctx.beginPath();ctx.moveTo(cx,cy-r-10);ctx.lineTo(cx-10,cy-r+10);ctx.lineTo(cx+10,cy-r+10);
-  ctx.fillStyle='white';ctx.fill();
+  // center circle
+  ctx.beginPath();ctx.arc(cx,cy,18,0,Math.PI*2);
+  ctx.fillStyle='#facc15';ctx.fill();
+  ctx.strokeStyle='#0a0a10';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#0a0a10';ctx.font='bold 14px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('🐵',cx,cy);
+  // pointer — triangle at top, pointing DOWN into wheel
+  ctx.beginPath();
+  ctx.moveTo(cx,cy-r+18);
+  ctx.lineTo(cx-12,cy-r-12);
+  ctx.lineTo(cx+12,cy-r-12);
+  ctx.closePath();
+  ctx.fillStyle='#facc15';ctx.fill();
+  ctx.strokeStyle='#0a0a10';ctx.lineWidth=2;ctx.stroke();
 }
 drawWheel();
 
@@ -829,7 +848,8 @@ function spinWheel(){
     if(progress<1){requestAnimationFrame(animate)}
     else{
       spinning=false;
-      const idx=Math.floor(((Math.PI*2-spinAngle%(Math.PI*2))/(Math.PI*2))*prizes.length)%prizes.length;
+      const norm=((spinAngle%(Math.PI*2))+(Math.PI*2))%(Math.PI*2);
+      const idx=(prizes.length-Math.floor(norm/arc)%prizes.length)%prizes.length;
       const prize=prizes[idx];
       showPrize(prize);
       if(bonusSpins>0){localStorage.setItem('monkey_bonus_spins_'+SLUG,String(bonusSpins-1))}
