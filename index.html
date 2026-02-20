@@ -17,13 +17,15 @@
 <meta name="twitter:site" content="@SpunkArt13">
 <meta name="twitter:title" content="MonkeySingles — Find Your Person">
 <meta name="twitter:description" content="Honest dating app reviews, matchmaking tips, and AI profile optimizer. Find the right app and the right person. Free dating advice.">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https:; img-src 'self' data: https:; connect-src 'self' https:;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https:; img-src 'self' data: https:; connect-src 'self' https:; frame-src https:;">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+<meta property="og:image" content="https://monkey.singles/og.svg">
+<meta name="twitter:image" content="https://monkey.singles/og.svg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox='0%200%20120%20120'%20xmlns='http://www.w3.org/2000/svg'%20class='monkey-logo'%3E%20%20%3Ccircle%20cx='60'%20cy='62'%20r='48'%20fill='%238B6914'/%3E%20%20%3Ccircle%20cx='60'%20cy='62'%20r='42'%20fill='%23A0782C'/%3E%20%20%3Ccircle%20cx='12'%20cy='55'%20r='16'%20fill='%23A0782C'/%3E%20%20%3Ccircle%20cx='12'%20cy='55'%20r='10'%20fill='%23D4A853'/%3E%20%20%3Ccircle%20cx='108'%20cy='55'%20r='16'%20fill='%23A0782C'/%3E%20%20%3Ccircle%20cx='108'%20cy='55'%20r='10'%20fill='%23D4A853'/%3E%20%20%3Cellipse%20cx='60'%20cy='72'%20rx='28'%20ry='22'%20fill='%23D4A853'/%3E%20%20%3Ccircle%20cx='42'%20cy='50'%20r='7'%20fill='white'/%3E%20%20%3Ccircle%20cx='78'%20cy='50'%20r='7'%20fill='white'/%3E%20%20%3Ccircle%20cx='44'%20cy='49'%20r='4'%20fill='%231a1a28'/%3E%20%20%3Ccircle%20cx='80'%20cy='49'%20r='4'%20fill='%231a1a28'/%3E%20%20%3Ccircle%20cx='46'%20cy='47'%20r='1.5'%20fill='white'/%3E%20%20%3Ccircle%20cx='82'%20cy='47'%20r='1.5'%20fill='white'/%3E%20%20%3Cellipse%20cx='78'%20cy='42'%20rx='8'%20ry='3'%20fill='none'%20stroke='%235a3e0a'%20stroke-width='2'%20transform='rotate(-8,%2078,%2042)'/%3E%20%20%3Cellipse%20cx='54'%20cy='66'%20rx='3'%20ry='4'%20fill='%231a1a28'/%3E%20%20%3Cellipse%20cx='66'%20cy='66'%20rx='3'%20ry='4'%20fill='%231a1a28'/%3E%20%20%3Cpath%20d='M44%2080%20Q60%2095%2076%2080'%20fill='none'%20stroke='%235a3e0a'%20stroke-width='2.5'%20stroke-linecap='round'/%3E%20%20%3Cpath%20d='M48%2082%20Q60%2092%2072%2082'%20fill='none'%20stroke='%235a3e0a'%20stroke-width='1.5'%20stroke-linecap='round'/%3E%20%20%3Ctext%20x='90'%20y='28'%20font-size='22'%20transform='rotate(15,%2090,%2028)'%3E🍌%3C/text%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="dns-prefetch" href="https://www.googletagmanager.com">
+<link rel="dns-prefetch" href="https://api.coingecko.com">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -52,7 +54,7 @@
   --radius:12px;
 }
 html{scroll-behavior:smooth}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
 a{color:var(--accent);text-decoration:none;transition:opacity .2s}
 a:hover{opacity:.8}
 ::selection{background:var(--accent);color:var(--bg)}
@@ -262,7 +264,7 @@ a:hover{opacity:.8}
 <section class="hero">
 <h2><span>Date Smarter.</span><br>Match Better.</h2>
 <p>Honest dating app reviews, AI profile optimization, and matchmaking tips. Free tools to find your person.</p>
-<button class="hero-cta" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Get Started →</button>
+<button type="button" class="hero-cta" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Get Started →</button>
 <div class="hero-stats">
 <div class="hero-stat"><div class="num" id="visitorCount">—</div><div class="label">Visitors</div></div>
 <div class="hero-stat"><div class="num" id="searchCount">—</div><div class="label">Searches</div></div>
@@ -362,7 +364,7 @@ a:hover{opacity:.8}
 <p style="text-align:center;color:var(--dim);font-size:14px;margin-bottom:24px">Spin once per day for free rewards! Come back tomorrow for another spin.</p>
 <div class="spin-container">
 <canvas id="spinWheel" width="320" height="320"></canvas>
-<button class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN FREE</button>
+<button type="button" class="spin-btn" id="spinBtn" onclick="spinWheel()">SPIN FREE</button>
 </div>
 <div class="spin-result" id="spinResult" style="display:none">
 <div class="spin-prize" id="spinPrize"></div>
@@ -395,7 +397,7 @@ a:hover{opacity:.8}
 <section class="newsletter">
 <h3>Stay in the Loop</h3>
 <p>Weekly insights, new tools, and exclusive deals. No spam, ever.</p>
-<iframe src="https://embeds.beehiiv.com/6831d05b-f121-4e0d-951b-16f88ddd9ec3?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0;border-radius:0;background-color:transparent;"></iframe>
+<iframe data-src="https://embeds.beehiiv.com/6831d05b-f121-4e0d-951b-16f88ddd9ec3?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0;border-radius:0;background-color:transparent;" loading="lazy"></iframe>
 </section>
 
 <!-- Live Data Panel (report + investments) -->
@@ -447,15 +449,7 @@ a:hover{opacity:.8}
 <div class="affiliate-bar">
 <h4>Our Partners</h4>
 <div class="affiliate-links">
-<a href="https://stake.com/?c=MyXSehCn" target="_blank" data-aff="stake" style="border-color:#1475e1;color:#1475e1">Stake.com</a>
-<a href="https://shuffle.com?r=q94atl9m05" target="_blank" data-aff="shuffle" style="border-color:#7c3aed;color:#7c3aed">Shuffle</a>
-<a href="https://stake.us/?c=L2a8nG6c" target="_blank" data-aff="stakeus" style="border-color:#00c74d;color:#00c74d">Stake.us</a>
-<a href="https://winna.com/?r=Spunkeroo" target="_blank" data-aff="winna" style="border-color:#ff5f1f;color:#ff5f1f">Winna</a>
-<a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase" style="border-color:#0052ff;color:#0052ff">Coinbase</a>
-<a href="https://shop.ledger.com/?r=0553c9ea1441" target="_blank" data-aff="ledger" style="border-color:#ff5500;color:#ff5500">Ledger</a>
-<a href="https://kalshi.com/sign-up/?referral=6b72a842-a7f3-46b2-b8f4-2e3e8b498712" target="_blank" data-aff="kalshi" style="border-color:#00d084;color:#00d084">Kalshi</a>
 <a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" style="border-color:#06b6d4;color:#06b6d4">CustomGPT</a>
-<a href="https://everyx.io/register?ref=AYHl" target="_blank" data-aff="everyx" style="border-color:#a855f7;color:#a855f7">EveryX</a>
 <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="border-color:#ff9900;color:#ff9900">Amazon</a>
 
 </div>
@@ -500,7 +494,7 @@ a:hover{opacity:.8}
 <div class="footer-col">
 <h5>🤝 Partners</h5>
 <a href="https://stake.com/?c=MyXSehCn" target="_blank" data-aff="stake">Stake.com</a>
-<a href="https://shuffle.com?r=q94atl9m05" target="_blank" data-aff="shuffle">Shuffle</a>
+<a href="https://shuffle.com/?r=q94atl9m05" target="_blank" data-aff="shuffle">Shuffle</a>
 <a href="https://stake.us/?c=L2a8nG6c" target="_blank" data-aff="stakeus">Stake.us</a>
 <a href="https://winna.com/?r=Spunkeroo" target="_blank" data-aff="winna">Winna</a>
 <a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase">Coinbase</a>
@@ -519,28 +513,34 @@ a:hover{opacity:.8}
 </div>
 </div>
 <div class="footer-bottom">
-<p>© 2026 MonkeySingles — Part of the <a href="https://spunk.bet">Monkey Network</a> | Built with 🐵 by <a href="https://x.com/SpunkArt13" target="_blank">@SpunkArt13</a></p>
+<p>© 2026 MonkeySingles — Part of the <a href="https://monkey.directory">Monkey Network</a> | <a href="https://spunk.bet">Spunk.Bet</a> | Built by <a href="https://x.com/SpunkArt13" target="_blank">@SpunkArt13</a></p>
 </div>
 </div>
 </footer>
 
-<!-- Analytics + Firebase + Tracking -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-GVNL11PEGP"></script>
+<!-- Analytics + Firebase + Tracking — deferred for speed -->
 <script>
+// Polyfill requestIdleCallback for Safari
+window.requestIdleCallback=window.requestIdleCallback||function(cb){return setTimeout(cb,50)};
+</script>
+<script>
+// Defer GA loading until after page is interactive
 window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
 gtag('js',new Date());gtag('config','G-GVNL11PEGP',{page_title:'MonkeySingles',page_location:location.href});
+requestIdleCallback(()=>{const s=document.createElement('script');s.src='https://www.googletagmanager.com/gtag/js?id=G-GVNL11PEGP';s.async=true;document.head.appendChild(s)},
+{timeout:3000});
 
 const SLUG='singles';
 const FB_URL='https://predict-network-ec767-default-rtdb.firebaseio.com';
 
-// Visitor counter
+// Visitor counter (read then PATCH — never overwrite)
 (async()=>{try{
-  await fetch(`${FB_URL}/monkey/${SLUG}/visitors.json`,{method:'PUT',body:JSON.stringify({count:0,last:Date.now()}),headers:{'X-HTTP-Method-Override':'PATCH'}});
   const r=await fetch(`${FB_URL}/monkey/${SLUG}/visitors.json`);
   const d=await r.json();
-  if(d&&d.count)document.getElementById('visitorCount').textContent=d.count.toLocaleString();
-  fetch(`${FB_URL}/monkey/${SLUG}/visitors/count.json`,{method:'PUT',body:JSON.stringify((d&&d.count||0)+1)});
-}catch(e){console.log('Firebase visitor tracking unavailable')}})();
+  const c=(d&&d.count||0)+1;
+  document.getElementById('visitorCount').textContent=c.toLocaleString();
+  await fetch(`${FB_URL}/monkey/${SLUG}/visitors.json`,{method:'PATCH',body:JSON.stringify({count:c,last:Date.now()})});
+}catch(e){}})();
 
 // Search tracking
 const searchInput=document.getElementById('searchInput');
@@ -602,7 +602,7 @@ document.querySelectorAll('.faq-q').forEach(q=>{
   document.getElementById('toolCount').textContent=tc.toLocaleString();
 }catch(e){}})();
 
-// Live crypto data (for report + investments sites, shown on all for engagement)
+// Live crypto data — deferred until page is interactive
 const LIVE_SITES=['report','investments','poker','coupons','directory','singles','courses','gives','charity','repair','rent'];
 if(LIVE_SITES.includes(SLUG)){
   const livePanel=document.getElementById('liveData');
@@ -610,6 +610,7 @@ if(LIVE_SITES.includes(SLUG)){
   async function loadPrices(){
     try{
       const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,dogecoin,cardano,polkadot&vs_currencies=usd&include_24hr_change=true');
+      if(r.status===429){console.log('CoinGecko rate limited, retrying in 120s');setTimeout(loadPrices,120000);return}
       const d=await r.json();
       if(!d.bitcoin)return;
       livePanel.style.display='block';
@@ -629,8 +630,7 @@ if(LIVE_SITES.includes(SLUG)){
       }).join('');
     }catch(e){console.log('Price feed unavailable')}
   }
-  loadPrices();
-  setInterval(loadPrices,60000);
+  requestIdleCallback(()=>{loadPrices();setInterval(loadPrices,60000)},{timeout:2000});
 }
 
 // Sticky CTA - show after scrolling 500px
@@ -666,22 +666,32 @@ if(dayTips){
   document.querySelector('.hero').after(tipEl);
 }
 
-// Lazy load images
+// Lazy load images + iframes
 if('IntersectionObserver' in window){
   const io=new IntersectionObserver((entries)=>{
     entries.forEach(e=>{if(e.isIntersecting){
-      const img=e.target;if(img.dataset.src){img.src=img.dataset.src;io.unobserve(img)}
+      const el=e.target;
+      if(el.dataset.src){el.src=el.dataset.src;io.unobserve(el)}
     }});
-  });
-  document.querySelectorAll('img[data-src]').forEach(img=>io.observe(img));
+  },{rootMargin:'200px'});
+  document.querySelectorAll('img[data-src],iframe[data-src]').forEach(el=>io.observe(el));
 }
+
+// Basic search — filter visible sections/tools/FAQs
+searchInput&&searchInput.addEventListener('input',function(){
+  const q=this.value.trim().toLowerCase();
+  document.querySelectorAll('.section-card,.tool-card,.faq-item,.trend-card').forEach(el=>{
+    const text=el.textContent.toLowerCase();
+    el.style.display=(!q||text.includes(q))?'':'none';
+  });
+});
 
 // ==========================================
 // SPIN WHEEL
 // ==========================================
 const prizes=[
   {text:'Bonus Spin',color:'#facc15',value:'bonus_spin'},
-  {text:'Free Tool Access',color:'var(--accent)',value:'tool_access'},
+  {text:'Free Tool Access',color:'#ec4899',value:'tool_access'},
   {text:'$10 Coinbase',color:'#0052ff',value:'coinbase_bonus'},
   {text:'Try Again',color:'#555568',value:'try_again'},
   {text:'Stake Bonus',color:'#1475e1',value:'stake_bonus'},
@@ -704,7 +714,7 @@ function drawWheel(){
     ctx.fillStyle=typeof p.color==='string'&&p.color.startsWith('#')?p.color:'#8b5cf6';
     ctx.fill();ctx.strokeStyle='#1a1a28';ctx.lineWidth=2;ctx.stroke();
     ctx.save();ctx.translate(cx,cy);ctx.rotate(start+arc/2);
-    ctx.fillStyle='white';ctx.font='bold 11px Inter,sans-serif';ctx.textAlign='center';
+    ctx.fillStyle='white';ctx.font='bold 11px system-ui,sans-serif';ctx.textAlign='center';
     ctx.fillText(p.text,r/2+10,4);ctx.restore();
   });
   // pointer
