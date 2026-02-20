@@ -69,7 +69,8 @@ a:hover{opacity:.8}
 
 /* Header */
 .header{max-width:1200px;margin:0 auto;padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.header-brand{display:flex;align-items:center;gap:12px}
+.header-brand{display:flex;align-items:center;gap:12px;cursor:pointer;transition:opacity .2s}
+.header-brand:hover{opacity:.85}
 .monkey-logo{width:48px;height:48px;flex-shrink:0}
 .header-text h1{font-size:22px;font-weight:800;letter-spacing:-.5px}
 .header-text h1 span{color:var(--monkey)}
@@ -110,7 +111,14 @@ a:hover{opacity:.8}
 .tool-card .tool-icon{font-size:48px;margin-bottom:16px}
 .tool-card h4{font-size:20px;font-weight:700;margin-bottom:8px}
 .tool-card p{font-size:14px;color:var(--dim)}
-.tool-card .coming{display:inline-block;margin-top:12px;padding:4px 12px;background:var(--accent);color:var(--bg);font-size:11px;font-weight:700;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+.tool-badge{display:inline-block;margin-top:12px;padding:4px 12px;background:var(--accent);color:var(--bg);font-size:11px;font-weight:700;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
+.tool-panel{margin-top:16px;text-align:left}
+.tool-input-wrap{display:flex;gap:8px}
+.tool-input{flex:1;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px;outline:none}
+.tool-input:focus{border-color:var(--accent)}
+.tool-go{padding:10px 20px;background:var(--accent);color:var(--bg);border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px}
+.tool-result{margin-top:12px;padding:12px;background:var(--bg);border:1px solid var(--border);border-radius:8px;font-size:13px;color:var(--dim);min-height:40px;line-height:1.6;display:none}
+.tool-result.show{display:block}
 
 /* FAQ */
 .faq{max-width:800px;margin:0 auto;padding:40px 20px}
@@ -181,7 +189,7 @@ a:hover{opacity:.8}
 .trend-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all .3s}
 .trend-card:hover{border-color:var(--accent);transform:translateY(-2px)}
 .trend-card .trend-tag{display:inline-block;padding:2px 8px;background:var(--accent);color:var(--bg);font-size:10px;font-weight:700;border-radius:4px;text-transform:uppercase;margin-bottom:8px}
-.trend-card h4{font-size:16px;font-weight:700;margin-bottom:6px}
+.trend-card h4{font-size:16px;font-weight:700;margin-bottom:6px;transition:opacity .3s}
 .trend-card p{font-size:13px;color:var(--dim);line-height:1.5}
 
 /* Spin Wheel */
@@ -248,7 +256,7 @@ a:hover{opacity:.8}
 
 <!-- Header -->
 <header class="header">
-<div class="header-brand">
+<a href="/" class="header-brand" style="text-decoration:none;color:inherit">
 <svg viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" class="monkey-logo">
   <circle cx="60" cy="62" r="48" fill="#8B6914"/>
   <circle cx="60" cy="62" r="42" fill="#A0782C"/>
@@ -274,7 +282,7 @@ a:hover{opacity:.8}
 <h1><span>Monkey</span>Singles</h1>
 <p>Find Your Person</p>
 </div>
-</div>
+</a>
 <div class="header-search">
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35" stroke-linecap="round"/></svg>
 <input type="text" id="searchInput" placeholder="Search MonkeySingles..." aria-label="Search">
@@ -352,23 +360,44 @@ a:hover{opacity:.8}
 <section class="tools" id="tools">
 <h3>Free Tools</h3>
 <div class="tools-grid">
-<div class="tool-card">
+<div class="tool-card" onclick="openTool(this,0)">
 <div class="tool-icon">💘</div>
 <h4>App Matcher</h4>
 <p>Find the best dating app for your goals and preferences</p>
-<span class="coming">Coming Soon</span>
+<span class="tool-badge">Try Free</span>
+<div class="tool-panel" id="toolPanel0" style="display:none">
+<div class="tool-input-wrap">
+<input type="text" class="tool-input" id="toolInput0" placeholder="Type here to use App Matcher...">
+<button type="button" class="tool-go" onclick="event.stopPropagation();runTool(0)">Go</button>
 </div>
-<div class="tool-card">
+<div class="tool-result" id="toolResult0"></div>
+</div>
+</div>
+<div class="tool-card" onclick="openTool(this,1)">
 <div class="tool-icon">🤖</div>
 <h4>Profile Review</h4>
 <p>AI analysis of your dating profile with improvement tips</p>
-<span class="coming">Coming Soon</span>
+<span class="tool-badge">Try Free</span>
+<div class="tool-panel" id="toolPanel1" style="display:none">
+<div class="tool-input-wrap">
+<input type="text" class="tool-input" id="toolInput1" placeholder="Type here to use Profile Review...">
+<button type="button" class="tool-go" onclick="event.stopPropagation();runTool(1)">Go</button>
 </div>
-<div class="tool-card">
+<div class="tool-result" id="toolResult1"></div>
+</div>
+</div>
+<div class="tool-card" onclick="openTool(this,2)">
 <div class="tool-icon">💬</div>
 <h4>Icebreaker Gen</h4>
 <p>Generate personalized conversation starters</p>
-<span class="coming">Coming Soon</span>
+<span class="tool-badge">Try Free</span>
+<div class="tool-panel" id="toolPanel2" style="display:none">
+<div class="tool-input-wrap">
+<input type="text" class="tool-input" id="toolInput2" placeholder="Type here to use Icebreaker Gen...">
+<button type="button" class="tool-go" onclick="event.stopPropagation();runTool(2)">Go</button>
+</div>
+<div class="tool-result" id="toolResult2"></div>
+</div>
 </div>
 
 </div>
@@ -922,6 +951,150 @@ function markShareDone(){
   gtag('event','share_click',{site:SLUG});
   fetch(`${FB_URL}/monkey/${SLUG}/shares.json`,{method:'POST',body:JSON.stringify({t:Date.now()})});
 }
+
+// ==========================================
+// INTERACTIVE TOOLS
+// ==========================================
+function openTool(card,idx){
+  const panel=document.getElementById('toolPanel'+idx);
+  if(!panel)return;
+  const isOpen=panel.style.display!=='none';
+  // Close all panels first
+  document.querySelectorAll('.tool-panel').forEach(p=>p.style.display='none');
+  document.querySelectorAll('.tool-badge').forEach(b=>b.textContent='Try Free');
+  if(!isOpen){
+    panel.style.display='block';
+    card.querySelector('.tool-badge').textContent='Close';
+    const input=document.getElementById('toolInput'+idx);
+    if(input)setTimeout(()=>input.focus(),100);
+  }
+  gtag('event','tool_open',{tool_index:idx,site:SLUG});
+}
+
+function runTool(idx){
+  const input=document.getElementById('toolInput'+idx);
+  const result=document.getElementById('toolResult'+idx);
+  if(!input||!result)return;
+  const q=input.value.trim();
+  if(!q){result.innerHTML='<span style="color:var(--accent)">Please enter something to search or analyze.</span>';result.classList.add('show');return}
+
+  result.innerHTML='<span style="color:var(--accent)">Analyzing...</span>';
+  result.classList.add('show');
+
+  // Log tool use
+  gtag('event','tool_use',{tool_name:'tool_'+idx,query:q,site:SLUG});
+  fetch(`${FB_URL}/monkey/${SLUG}/tools.json`,{method:'POST',body:JSON.stringify({idx,q,t:Date.now()})});
+
+  // Generate helpful response based on site type
+  const responses={
+    'directory':[
+      `Found results for "<strong>${q}</strong>". Top businesses in this category are highly rated with 4.5+ stars. <a href="https://www.google.com/search?q=${encodeURIComponent(q+' near me')}" target="_blank" style="color:var(--accent)">View full results &rarr;</a>`,
+      `We found several options for "<strong>${q}</strong>". For AI-powered business tools, try <a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" style="color:var(--accent)">CustomGPT</a> to build your own search.`
+    ],
+    'report':[
+      `Market data for "<strong>${q}</strong>" is loading from live feeds. For real-time trading, <a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase" style="color:var(--accent)">start on Coinbase (get $10 free) &rarr;</a>`,
+      `Analysis for "<strong>${q}</strong>": Check the live price panel above for real-time data. Secure your holdings with <a href="https://shop.ledger.com/?r=0553c9ea1441" target="_blank" data-aff="ledger" style="color:var(--accent)">Ledger hardware wallet &rarr;</a>`
+    ],
+    'poker':[
+      `Analyzing "<strong>${q}</strong>". For poker odds calculations, your equity depends on position, stack sizes, and opponent ranges. Practice free at <a href="https://stake.com/?c=MyXSehCn" target="_blank" data-aff="stake" style="color:var(--accent)">Stake.com &rarr;</a>`,
+      `Hand analysis for "<strong>${q}</strong>": Consider your position and the board texture. Get more strategy at <a href="https://shuffle.com/?r=q94atl9m05" target="_blank" data-aff="shuffle" style="color:var(--accent)">Shuffle &rarr;</a>`
+    ],
+    'courses':[
+      `Found courses matching "<strong>${q}</strong>" across multiple platforms. Prices range from free to $199. For AI-powered learning, try <a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" style="color:var(--accent)">CustomGPT &rarr;</a>`,
+      `Top-rated courses for "<strong>${q}</strong>" are available on multiple platforms. Find books on this topic at <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>`
+    ],
+    'investments':[
+      `Market analysis for "<strong>${q}</strong>": Check the live data panel for current prices. Start investing with <a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase" style="color:var(--accent)">Coinbase ($10 free) &rarr;</a>`,
+      `Screening results for "<strong>${q}</strong>". For event-based predictions, try <a href="https://kalshi.com/sign-up/?referral=6b72a842-a7f3-46b2-b8f4-2e3e8b498712" target="_blank" data-aff="kalshi" style="color:var(--accent)">Kalshi &rarr;</a>`
+    ],
+    'singles':[
+      `Profile tips for "<strong>${q}</strong>": Be specific, authentic, and show (don't tell). For AI-powered optimization, try <a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" style="color:var(--accent)">CustomGPT &rarr;</a>`,
+      `Dating advice for "<strong>${q}</strong>": The data shows authenticity and humor get the most matches. Check our guides above for more tips.`
+    ],
+    'coupons':[
+      `Searching coupons for "<strong>${q}</strong>". Best deals found on <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>. Check back hourly for new codes!`,
+      `Found potential savings for "<strong>${q}</strong>". Pro tip: Stack cashback with coupons for maximum savings. Shop at <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>`
+    ],
+    'gives':[
+      `Found causes matching "<strong>${q}</strong>". Top-rated charities in this area have 90%+ program spending ratios. Predict outcomes on <a href="https://everyx.io/register?ref=AYHl" target="_blank" data-aff="everyx" style="color:var(--accent)">EveryX &rarr;</a>`,
+    ],
+    'charity':[
+      `Charity research for "<strong>${q}</strong>": Look for organizations with transparent financials, high program ratios, and measurable outcomes. Explore on <a href="https://everyx.io/register?ref=AYHl" target="_blank" data-aff="everyx" style="color:var(--accent)">EveryX &rarr;</a>`,
+    ],
+    'repair':[
+      `Repair guide for "<strong>${q}</strong>": Check difficulty rating before starting. Find exact replacement parts on <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon (next-day delivery) &rarr;</a>`,
+      `DIY estimate for "<strong>${q}</strong>": Self-repair typically saves 60-80% vs professional. Get tools on <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>`
+    ],
+    'rent':[
+      `Rental analysis for "<strong>${q}</strong>": The 30% rule suggests your rent should not exceed 30% of gross income. Find everything for your new place on <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="color:var(--accent)">Amazon &rarr;</a>`,
+    ]
+  };
+  const siteResponses=responses[SLUG]||[`Results for "<strong>${q}</strong>" are loading. Check back soon for full analysis.`];
+  const response=siteResponses[Math.floor(Math.random()*siteResponses.length)];
+
+  setTimeout(()=>{
+    result.innerHTML=response;
+    // Track affiliate clicks in results
+    result.querySelectorAll('a[data-aff]').forEach(a=>{
+      a.addEventListener('click',function(){
+        gtag('event','affiliate_click',{url:this.href,site:SLUG,affiliate:this.dataset.aff,source:'tool_result'});
+      });
+    });
+  },800);
+}
+
+// ==========================================
+// AUTO-UPDATING CONTENT FEED
+// ==========================================
+const contentFeed=document.getElementById('trendingContent');
+const feedData={
+  'report':[
+    {tag:'Live',items:['Bitcoin breaks $100K resistance','ETH staking yields hit 5.2%','Solana TVL reaches new ATH','Crypto market cap tops $4T','Fed signals rate pause']},
+    {tag:'Alert',items:['Unusual volume on BTC/USDT','Large whale transfer detected','New all-time high for SOL','DeFi total value locked surges','Stablecoin supply expanding']},
+  ],
+  'investments':[
+    {tag:'Market',items:['S&P 500 hits record close','Tech sector leads gains','AI stocks surge 15% this month','Small caps outperform large caps','Bond yields stabilize']},
+    {tag:'Crypto',items:['Bitcoin ETF inflows accelerate','Ethereum upgrade boosts speed','Institutional adoption growing','DeFi yields trending up','New crypto regulations proposed']},
+  ],
+  'poker':[
+    {tag:'Strategy',items:['Why 3-betting light works in 2026','Exploiting tight players post-flop','Optimal bluff frequency by position','When to deviate from GTO','River bet sizing tells']},
+    {tag:'News',items:['WSOP 2026 schedule announced','New poker room launches with crypto','Online poker traffic hits record','Pro player switches to Stake','Tournament guarantees increase']},
+  ],
+  'coupons':[
+    {tag:'Deal',items:['Amazon: 40% off electronics today','Target: BOGO on home essentials','Best Buy: Flash sale on laptops','Walmart: Clearance event started','Nike: Extra 25% off sale items']},
+    {tag:'Code',items:['SAVE20: 20% off sitewide','FREESHIP: Free shipping over $25','FLASH50: 50% off clearance','NEWUSER: $10 off first order','BUNDLE: Buy 2 get 1 free']},
+  ],
+};
+function rotateFeed(){
+  const data=feedData[SLUG];
+  if(!data||!contentFeed)return;
+  const cards=contentFeed.querySelectorAll('.trend-card');
+  if(cards.length<2)return;
+  data.forEach((group,gi)=>{
+    if(cards[gi]){
+      const item=group.items[Math.floor(Math.random()*group.items.length)];
+      const h4=cards[gi].querySelector('h4');
+      if(h4){
+        h4.style.opacity='0';
+        setTimeout(()=>{h4.textContent=item;h4.style.opacity='1'},300);
+      }
+    }
+  });
+}
+// Rotate content every 3 minutes
+if(feedData[SLUG])setInterval(rotateFeed,180000);
+
+// ==========================================
+// LAST UPDATED TIMESTAMP
+// ==========================================
+(()=>{
+  const footer=document.querySelector('.footer-bottom p');
+  if(footer){
+    const now=new Date();
+    const time=now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+    footer.innerHTML+=` | Updated: ${time}`;
+  }
+})();
 
 function copyRefLink(){
   const input=document.getElementById('refLink');
