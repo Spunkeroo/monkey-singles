@@ -185,6 +185,40 @@ a:hover{opacity:.8}
 .price-card .change.up{color:var(--green);background:rgba(34,197,94,.1)}
 .price-card .change.down{color:var(--red);background:rgba(239,68,68,.1)}
 
+/* Crypto Table — Top 100 */
+.crypto-section{max-width:1200px;margin:0 auto;padding:20px}
+.crypto-header{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:16px}
+.crypto-header h3{font-size:24px;font-weight:800;letter-spacing:-.5px}
+.crypto-header .update-badge{font-size:11px;color:var(--dim);background:var(--card);padding:4px 10px;border-radius:6px;border:1px solid var(--border)}
+.crypto-search{padding:8px 14px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:13px;outline:none;width:220px;max-width:100%}
+.crypto-search:focus{border-color:var(--accent)}
+.crypto-table{width:100%;border-collapse:separate;border-spacing:0;font-size:13px}
+.crypto-table th{position:sticky;top:0;background:var(--surface);padding:10px 12px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;white-space:nowrap}
+.crypto-table th:hover{color:var(--accent)}
+.crypto-table th.sort-asc::after{content:' ▲';font-size:9px}
+.crypto-table th.sort-desc::after{content:' ▼';font-size:9px}
+.crypto-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle;white-space:nowrap}
+.crypto-table tr:hover td{background:var(--card)}
+.crypto-table .coin-cell{display:flex;align-items:center;gap:8px}
+.crypto-table .coin-cell img{width:24px;height:24px;border-radius:50%;flex-shrink:0}
+.crypto-table .coin-name{font-weight:700;color:var(--text)}
+.crypto-table .coin-sym{color:var(--muted);font-size:11px;text-transform:uppercase;margin-left:4px}
+.crypto-table .price-val{font-weight:700;font-variant-numeric:tabular-nums}
+.crypto-table .pct-up{color:var(--green);font-weight:600}
+.crypto-table .pct-down{color:var(--red);font-weight:600}
+.crypto-table .vol,.crypto-table .mcap{color:var(--dim);font-variant-numeric:tabular-nums}
+.crypto-table .rank{color:var(--muted);font-weight:600;width:30px}
+.crypto-scroll{max-height:800px;overflow-y:auto;border:1px solid var(--border);border-radius:var(--radius);background:var(--surface)}
+.crypto-scroll::-webkit-scrollbar{width:6px}
+.crypto-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+.crypto-cta-row{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;flex-wrap:wrap}
+.crypto-cta-row a{padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;color:white;display:inline-flex;align-items:center;gap:6px}
+@media(max-width:768px){
+  .crypto-table .hide-mobile{display:none}
+  .crypto-search{width:100%}
+  .crypto-table td,.crypto-table th{padding:8px 6px;font-size:12px}
+}
+
 /* Trending */
 .trend-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all .3s}
 .trend-card:hover{border-color:var(--accent);transform:translateY(-2px)}
@@ -482,7 +516,7 @@ a:hover{opacity:.8}
 </div>
 </section>
 
-<!-- Live Data Panel (report + investments) -->
+<!-- Live Crypto Prices — Top 100 (report + investments) -->
 <div class="live-data" id="liveData" style="display:none">
 <div style="max-width:1200px;margin:0 auto;padding:20px">
 <h3 style="font-size:20px;font-weight:800;margin-bottom:16px;text-align:center">Live Market Data</h3>
@@ -685,35 +719,100 @@ document.querySelectorAll('.faq-q').forEach(q=>{
   document.getElementById('toolCount').textContent=tc.toLocaleString();
 }catch(e){}})();
 
-// Live crypto data — deferred until page is interactive
-const LIVE_SITES=['report','investments','poker','coupons','directory','singles','courses','gives','charity','repair','rent'];
-if(LIVE_SITES.includes(SLUG)){
+// Live crypto data
+const CRYPTO_SITES=['report','investments'];
+const PRICE_SITES=['poker','coupons','directory','singles','courses','gives','charity','repair','rent'];
+
+if(CRYPTO_SITES.includes(SLUG)){
+  // Full top-100 crypto table for report + investments
+  let cryptoData=[];
+  let sortCol='market_cap_rank';
+  let sortDir='asc';
+  const tbody=document.getElementById('cryptoBody');
+  const updateBadge=document.getElementById('cryptoUpdate');
+  const searchBox=document.getElementById('cryptoSearch');
+
+  function fmtPrice(p){
+    if(p>=1)return'$'+p.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+    if(p>=0.01)return'$'+p.toFixed(4);
+    return'$'+p.toFixed(6);
+  }
+  function fmtBig(n){
+    if(!n)return'—';
+    if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';
+    if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';
+    if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';
+    return'$'+n.toLocaleString();
+  }
+  function pctClass(v){return v>=0?'pct-up':'pct-down'}
+  function pctStr(v){if(v==null)return'—';return(v>=0?'+':'')+v.toFixed(2)+'%'}
+
+  function renderTable(data){
+    const q=(searchBox?searchBox.value.trim().toLowerCase():'');
+    const filtered=q?data.filter(c=>c.name.toLowerCase().includes(q)||c.symbol.toLowerCase().includes(q)):data;
+    if(!tbody)return;
+    tbody.innerHTML=filtered.map(c=>`<tr>
+      <td class="rank">${c.market_cap_rank||'—'}</td>
+      <td><div class="coin-cell"><img src="${c.image}" alt="${c.symbol}" loading="lazy"><span class="coin-name">${c.name}</span><span class="coin-sym">${c.symbol}</span></div></td>
+      <td class="price-val">${fmtPrice(c.current_price)}</td>
+      <td class="${pctClass(c.price_change_percentage_24h)}">${pctStr(c.price_change_percentage_24h)}</td>
+      <td class="${pctClass(c.price_change_percentage_7d_in_currency)} hide-mobile">${pctStr(c.price_change_percentage_7d_in_currency)}</td>
+      <td class="vol hide-mobile">${fmtBig(c.total_volume)}</td>
+      <td class="mcap hide-mobile">${fmtBig(c.market_cap)}</td>
+    </tr>`).join('');
+  }
+
+  function sortData(col){
+    if(sortCol===col){sortDir=sortDir==='asc'?'desc':'asc'}else{sortCol=col;sortDir=col==='market_cap_rank'?'asc':'desc'}
+    document.querySelectorAll('.crypto-table th').forEach(th=>{th.classList.remove('sort-asc','sort-desc')});
+    const th=document.querySelector(`.crypto-table th[data-col="${col}"]`);
+    if(th)th.classList.add(sortDir==='asc'?'sort-asc':'sort-desc');
+    cryptoData.sort((a,b)=>{
+      let va=a[col],vb=b[col];
+      if(va==null)va=sortDir==='asc'?Infinity:-Infinity;
+      if(vb==null)vb=sortDir==='asc'?Infinity:-Infinity;
+      return sortDir==='asc'?va-vb:vb-va;
+    });
+    renderTable(cryptoData);
+  }
+
+  async function loadTop100(){
+    try{
+      const r=await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=7d');
+      if(r.status===429){setTimeout(loadTop100,120000);return}
+      const d=await r.json();
+      if(!Array.isArray(d)||!d.length)return;
+      cryptoData=d;
+      sortData(sortCol);
+      if(updateBadge)updateBadge.textContent='Updated '+new Date().toLocaleTimeString();
+      gtag('event','crypto_load',{count:d.length,site:SLUG});
+    }catch(e){console.log('Crypto feed unavailable')}
+  }
+
+  // Sort click handlers
+  document.querySelectorAll('.crypto-table th[data-col]').forEach(th=>{
+    th.addEventListener('click',()=>sortData(th.dataset.col));
+  });
+  if(searchBox)searchBox.addEventListener('input',()=>renderTable(cryptoData));
+
+  requestIdleCallback(()=>{loadTop100();setInterval(loadTop100,30000)},{timeout:1000});
+} else if(PRICE_SITES.includes(SLUG)){
+  // Small price banner for other sites
   const livePanel=document.getElementById('liveData');
   const grid=document.getElementById('priceGrid');
-  async function loadPrices(){
-    try{
-      const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,dogecoin,cardano,polkadot&vs_currencies=usd&include_24hr_change=true');
-      if(r.status===429){console.log('CoinGecko rate limited, retrying in 120s');setTimeout(loadPrices,120000);return}
-      const d=await r.json();
-      if(!d.bitcoin)return;
-      livePanel.style.display='block';
-      const coins=[
-        {id:'bitcoin',name:'Bitcoin',sym:'BTC'},
-        {id:'ethereum',name:'Ethereum',sym:'ETH'},
-        {id:'solana',name:'Solana',sym:'SOL'},
-        {id:'dogecoin',name:'Dogecoin',sym:'DOGE'},
-        {id:'cardano',name:'Cardano',sym:'ADA'},
-        {id:'polkadot',name:'Polkadot',sym:'DOT'}
-      ];
-      grid.innerHTML=coins.map(c=>{
-        const p=d[c.id];if(!p)return'';
-        const price=p.usd;const change=p.usd_24h_change||0;
-        const up=change>=0;
-        return`<div class="price-card"><div><div class="coin">${c.sym}</div><div style="font-size:11px;color:var(--muted)">${c.name}</div></div><div style="text-align:right"><div class="price">$${price.toLocaleString(undefined,{maximumFractionDigits:price>100?0:2})}</div><span class="change ${up?'up':'down'}">${up?'+':''}${change.toFixed(1)}%</span></div></div>`;
-      }).join('');
-    }catch(e){console.log('Price feed unavailable')}
+  if(livePanel&&grid){
+    async function loadPrices(){
+      try{
+        const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,dogecoin,cardano,polkadot&vs_currencies=usd&include_24hr_change=true');
+        if(r.status===429){setTimeout(loadPrices,120000);return}
+        const d=await r.json();if(!d.bitcoin)return;
+        livePanel.style.display='block';
+        const coins=[{id:'bitcoin',name:'Bitcoin',sym:'BTC'},{id:'ethereum',name:'Ethereum',sym:'ETH'},{id:'solana',name:'Solana',sym:'SOL'},{id:'dogecoin',name:'Dogecoin',sym:'DOGE'},{id:'cardano',name:'Cardano',sym:'ADA'},{id:'polkadot',name:'Polkadot',sym:'DOT'}];
+        grid.innerHTML=coins.map(c=>{const p=d[c.id];if(!p)return'';const price=p.usd;const change=p.usd_24h_change||0;const up=change>=0;return`<div class="price-card"><div><div class="coin">${c.sym}</div><div style="font-size:11px;color:var(--muted)">${c.name}</div></div><div style="text-align:right"><div class="price">$${price.toLocaleString(undefined,{maximumFractionDigits:price>100?0:2})}</div><span class="change ${up?'up':'down'}">${up?'+':''}${change.toFixed(1)}%</span></div></div>`}).join('');
+      }catch(e){}
+    }
+    requestIdleCallback(()=>{loadPrices();setInterval(loadPrices,60000)},{timeout:2000});
   }
-  requestIdleCallback(()=>{loadPrices();setInterval(loadPrices,60000)},{timeout:2000});
 }
 
 // Sticky CTA - show after scrolling 500px
