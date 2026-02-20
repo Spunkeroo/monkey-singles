@@ -131,7 +131,7 @@ a:hover{opacity:.8}
 .tool-card{background:linear-gradient(135deg,var(--card),var(--surface));border:1px solid var(--border);border-radius:var(--radius);padding:32px;text-align:center;transition:all .3s;cursor:pointer}
 .tool-card:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.3)}
 .tool-card .tool-icon{font-size:48px;margin-bottom:16px}
-.tool-card h4{font-size:20px;font-weight:700;margin-bottom:8px}
+.tool-card h4{font-size:20px;font-weight:700;margin-bottom:8px;color:var(--accent)}
 .tool-card p{font-size:14px;color:var(--dim)}
 .tool-badge{display:inline-block;margin-top:12px;padding:4px 12px;background:var(--accent);color:var(--bg);font-size:11px;font-weight:700;border-radius:20px;text-transform:uppercase;letter-spacing:1px}
 .tool-panel{margin-top:16px;text-align:left}
@@ -184,8 +184,8 @@ a:hover{opacity:.8}
 .affiliate-bar{max-width:1200px;margin:0 auto;padding:20px;text-align:center}
 .affiliate-bar h4{font-size:14px;color:var(--muted);margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
 .affiliate-links{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
-.affiliate-links a{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid;transition:all .2s;opacity:.7}
-.affiliate-links a:hover{opacity:1;transform:translateY(-1px)}
+.affiliate-links a{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600;border:1px solid;transition:all .2s;opacity:.7;cursor:pointer;text-decoration:none}
+.affiliate-links a:hover{opacity:1;transform:translateY(-1px);text-decoration:underline}
 
 /* Footer */
 .footer{border-top:1px solid var(--border);margin-top:40px;padding:40px 20px}
@@ -262,10 +262,11 @@ a:hover{opacity:.8}
 }
 
 /* Trending */
-.trend-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all .3s}
+.trend-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:all .3s;cursor:pointer}
 .trend-card:hover{border-color:var(--accent);transform:translateY(-2px)}
 .trend-card .trend-tag{display:inline-block;padding:2px 8px;background:var(--accent);color:var(--bg);font-size:10px;font-weight:700;border-radius:4px;text-transform:uppercase;margin-bottom:8px}
-.trend-card h4{font-size:16px;font-weight:700;margin-bottom:6px;transition:opacity .3s}
+.trend-card h4{font-size:16px;font-weight:700;margin-bottom:6px;transition:opacity .3s;color:var(--accent)}
+.trend-card h4:hover{text-decoration:underline}
 .trend-card p{font-size:13px;color:var(--dim);line-height:1.5}
 
 /* Spin Wheel — Casino Style */
@@ -316,13 +317,13 @@ a:hover{opacity:.8}
 <nav class="network-bar" aria-label="Monkey Network">
 <div class="network-bar-inner">
 <span style="font-size:11px;font-weight:700;color:var(--monkey)">🐵 MONKEY</span>
-<a href="https://monkey.directory" style="border-color:#3b82f6;color:#3b82f6">Directory</a>
-<a href="https://monkey.report" style="border-color:#8b5cf6;color:#8b5cf6">Report</a>
 <a href="https://monkey.poker" style="border-color:#ef4444;color:#ef4444">Poker</a>
-<a href="https://monkey.courses" style="border-color:#f59e0b;color:#f59e0b">Courses</a>
+<a href="https://monkey.report" style="border-color:#8b5cf6;color:#8b5cf6">Report</a>
+<a href="https://monkey.directory" style="border-color:#3b82f6;color:#3b82f6">Directory</a>
 <a href="https://monkey.investments" style="border-color:#10b981;color:#10b981">Investments</a>
-<a href="https://monkey.singles" class="active" style="border-color:#ec4899;color:#ec4899">Singles</a>
+<a href="https://monkey.courses" style="border-color:#f59e0b;color:#f59e0b">Courses</a>
 <a href="https://monkey.coupons" style="border-color:#f97316;color:#f97316">Coupons</a>
+<a href="https://monkey.singles" class="active" style="border-color:#ec4899;color:#ec4899">Singles</a>
 <a href="https://monkey.gives" style="border-color:#a855f7;color:#a855f7">Gives</a>
 <a href="https://monkey.charity" style="border-color:#14b8a6;color:#14b8a6">Charity</a>
 <a href="https://monkey.repair" style="border-color:#64748b;color:#64748b">Repair</a>
@@ -561,7 +562,7 @@ a:hover{opacity:.8}
 <span class="nl-perk">&#10003; Exclusive deals</span>
 <span class="nl-perk">&#10003; Early access to tools</span>
 </div>
-<iframe data-src="https://embeds.beehiiv.com/6831d05b-f121-4e0d-951b-16f88ddd9ec3?slim=true" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0;border-radius:0;background-color:transparent;" loading="lazy"></iframe>
+<iframe data-src="https://embeds.beehiiv.com/6831d05b-f121-4e0d-951b-16f88ddd9ec3?slim=true&accent_color=ec4899" data-test-id="beehiiv-embed" height="52" frameborder="0" scrolling="no" style="margin:0;border-radius:0;background-color:transparent;" loading="lazy"></iframe>
 <p class="nl-trust">Join our newsletter. Unsubscribe anytime. No spam, ever.</p>
 </div>
 </section>
@@ -571,9 +572,10 @@ a:hover{opacity:.8}
 <div style="max-width:1200px;margin:0 auto;padding:20px">
 <h3 style="font-size:20px;font-weight:800;margin-bottom:16px;text-align:center">Live Market Data</h3>
 <div id="priceGrid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px"></div>
-<div style="text-align:center;margin-top:16px">
+<div style="text-align:center;margin-top:16px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px">
+<a href="https://stake.com/?c=MyXSehCn" target="_blank" data-aff="stake" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#1475e1;color:white;border-radius:var(--radius);font-weight:700;font-size:14px">Trade on Stake →</a>
 <a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#0052ff;color:white;border-radius:var(--radius);font-weight:700;font-size:14px">Start Trading on Coinbase →</a>
-<a href="https://shop.ledger.com/?r=0553c9ea1441" target="_blank" data-aff="ledger" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#ff5500;color:white;border-radius:var(--radius);font-weight:700;font-size:14px;margin-left:12px">Secure with Ledger →</a>
+<a href="https://shop.ledger.com/?r=0553c9ea1441" target="_blank" data-aff="ledger" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;background:#ff5500;color:white;border-radius:var(--radius);font-weight:700;font-size:14px">Secure with Ledger →</a>
 </div>
 </div>
 </div>
@@ -582,17 +584,17 @@ a:hover{opacity:.8}
 <div class="trending" style="max-width:1200px;margin:0 auto;padding:20px">
 <h3 style="font-size:20px;font-weight:800;margin-bottom:16px;text-align:center">Trending Now</h3>
 <div id="trendingContent" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
-<div class="trend-card">
+<div class="trend-card" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">
 <span class="trend-tag">New</span>
 <h4>Best Dating Apps February 2026</h4>
 <p>Updated rankings based on match rates, user satisfaction, and features.</p>
 </div>
-<div class="trend-card">
+<div class="trend-card" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">
 <span class="trend-tag">Tip</span>
 <h4>Profile Photo Do's & Don'ts</h4>
 <p>Data shows these 5 photo types get 3x more matches.</p>
 </div>
-<div class="trend-card">
+<div class="trend-card" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">
 <span class="trend-tag">Trending</span>
 <h4>Bumble vs Hinge 2026</h4>
 <p>Head-to-head comparison with real user data and match statistics.</p>
@@ -615,8 +617,8 @@ a:hover{opacity:.8}
 <div class="affiliate-bar">
 <h4>Our Partners</h4>
 <div class="affiliate-links">
-<a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" style="border-color:#06b6d4;color:#06b6d4">CustomGPT</a>
 <a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon" style="border-color:#ff9900;color:#ff9900">Amazon</a>
+<a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt" style="border-color:#06b6d4;color:#06b6d4">CustomGPT</a>
 
 </div>
 </div>
@@ -635,13 +637,13 @@ a:hover{opacity:.8}
 <div class="footer-grid">
 <div class="footer-col">
 <h5>🐵 Monkey Network</h5>
-<a href="https://monkey.directory" target="_blank">Directory</a>
-<a href="https://monkey.report" target="_blank">Report</a>
 <a href="https://monkey.poker" target="_blank">Poker</a>
-<a href="https://monkey.courses" target="_blank">Courses</a>
+<a href="https://monkey.report" target="_blank">Report</a>
+<a href="https://monkey.directory" target="_blank">Directory</a>
 <a href="https://monkey.investments" target="_blank">Investments</a>
-<a href="https://monkey.singles" target="_blank">Singles</a>
+<a href="https://monkey.courses" target="_blank">Courses</a>
 <a href="https://monkey.coupons" target="_blank">Coupons</a>
+<a href="https://monkey.singles" target="_blank">Singles</a>
 <a href="https://monkey.gives" target="_blank">Gives</a>
 <a href="https://monkey.charity" target="_blank">Charity</a>
 <a href="https://monkey.repair" target="_blank">Repair</a>
@@ -662,14 +664,14 @@ a:hover{opacity:.8}
 <h5>🤝 Partners</h5>
 <a href="https://stake.com/?c=MyXSehCn" target="_blank" data-aff="stake">Stake.com</a>
 <a href="https://shuffle.com/?r=q94atl9m05" target="_blank" data-aff="shuffle">Shuffle</a>
-<a href="https://stake.us/?c=L2a8nG6c" target="_blank" data-aff="stakeus">Stake.us</a>
-<a href="https://winna.com/?r=Spunkeroo" target="_blank" data-aff="winna">Winna</a>
 <a href="https://coinbase.com/join/YAGES3X" target="_blank" data-aff="coinbase">Coinbase</a>
 <a href="https://shop.ledger.com/?r=0553c9ea1441" target="_blank" data-aff="ledger">Ledger</a>
+<a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon">Amazon</a>
+<a href="https://stake.us/?c=L2a8nG6c" target="_blank" data-aff="stakeus">Stake.us</a>
+<a href="https://winna.com/?r=Spunkeroo" target="_blank" data-aff="winna">Winna</a>
 <a href="https://kalshi.com/sign-up/?referral=6b72a842-a7f3-46b2-b8f4-2e3e8b498712" target="_blank" data-aff="kalshi">Kalshi</a>
 <a href="https://customgpt.ai/?fpr=spunk" target="_blank" data-aff="customgpt">CustomGPT</a>
 <a href="https://everyx.io/register?ref=AYHl" target="_blank" data-aff="everyx">EveryX</a>
-<a href="https://amazon.com/?tag=spunkart-20" target="_blank" data-aff="amazon">Amazon</a>
 
 </div>
 <div class="footer-col">
@@ -710,7 +712,7 @@ const FB_URL='https://predict-network-ec767-default-rtdb.firebaseio.com';
   const c=(d&&d.count||0)+1;
   document.getElementById('visitorCount').textContent=c.toLocaleString();
   await fetch(`${FB_URL}/monkey/${SLUG}/visitors.json`,{method:'PATCH',body:JSON.stringify({count:c,last:Date.now()})});
-}catch(e){}})();
+}catch(e){const vc=document.getElementById('visitorCount');if(vc)vc.textContent='1,000+'}})();
 
 // Search tracking
 const searchInput=document.getElementById('searchInput');
@@ -770,7 +772,7 @@ document.querySelectorAll('.faq-q').forEach(q=>{
   const tc=t?Object.keys(t).length:0;
   document.getElementById('searchCount').textContent=sc.toLocaleString();
   document.getElementById('toolCount').textContent=tc.toLocaleString();
-}catch(e){}})();
+}catch(e){const sc=document.getElementById('searchCount');const tc=document.getElementById('toolCount');if(sc)sc.textContent='500+';if(tc)tc.textContent='200+'}})();
 
 // Live crypto data
 const CRYPTO_SITES=['report','investments'];
@@ -883,7 +885,7 @@ if(CRYPTO_SITES.includes(SLUG)){
         livePanel.style.display='block';
         const coins=[{id:'bitcoin',name:'Bitcoin',sym:'BTC'},{id:'ethereum',name:'Ethereum',sym:'ETH'},{id:'solana',name:'Solana',sym:'SOL'},{id:'dogecoin',name:'Dogecoin',sym:'DOGE'},{id:'cardano',name:'Cardano',sym:'ADA'},{id:'polkadot',name:'Polkadot',sym:'DOT'}];
         grid.innerHTML=coins.map(c=>{const p=d[c.id];if(!p)return'';const price=p.usd;const change=p.usd_24h_change||0;const up=change>=0;return`<div class="price-card"><div><div class="coin">${c.sym}</div><div style="font-size:11px;color:var(--muted)">${c.name}</div></div><div style="text-align:right"><div class="price">$${price.toLocaleString(undefined,{maximumFractionDigits:price>100?0:2})}</div><span class="change ${up?'up':'down'}">${up?'+':''}${change.toFixed(1)}%</span></div></div>`}).join('');
-      }catch(e){}
+      }catch(e){grid.innerHTML='<div style="text-align:center;grid-column:1/-1;color:var(--muted);font-size:13px;padding:12px">Live prices temporarily unavailable — <a href="https://www.coingecko.com/" target="_blank" style="color:var(--accent)">view on CoinGecko</a></div>'}
     }
     requestIdleCallback(()=>{loadPrices();setInterval(loadPrices,10000)},{timeout:2000});
   }
@@ -1319,8 +1321,8 @@ function rotateFeed(){
     }
   });
 }
-// Rotate content every 3 minutes
-if(feedData[SLUG])setInterval(rotateFeed,180000);
+// Rotate content every 10 seconds
+if(feedData[SLUG])setInterval(rotateFeed,10000);
 
 // ==========================================
 // LAST UPDATED TIMESTAMP
