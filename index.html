@@ -760,27 +760,31 @@ document.querySelectorAll('.faq-q').forEach(q=>{
 const CRYPTO_SITES=['report','investments'];
 const PRICE_SITES=['poker','coupons','directory','singles','courses','gives','charity','repair','rent'];
 
+// Global crypto state (accessible to modal)
+var cryptoData=[];
+window.fmtPrice=function(p){
+  if(p>=1)return'$'+p.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  if(p>=0.01)return'$'+p.toFixed(4);
+  return'$'+p.toFixed(6);
+};
+window.fmtBig=function(n){
+  if(!n)return'—';
+  if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';
+  if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';
+  if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';
+  return'$'+n.toLocaleString();
+};
+var fmtPrice=window.fmtPrice;
+var fmtBig=window.fmtBig;
+
 if(CRYPTO_SITES.includes(SLUG)){
   // Full top-100 crypto table for report + investments
-  let cryptoData=[];
   let sortCol='market_cap_rank';
   let sortDir='asc';
   const tbody=document.getElementById('cryptoBody');
   const updateBadge=document.getElementById('cryptoUpdate');
   const searchBox=document.getElementById('cryptoSearch');
 
-  function fmtPrice(p){
-    if(p>=1)return'$'+p.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
-    if(p>=0.01)return'$'+p.toFixed(4);
-    return'$'+p.toFixed(6);
-  }
-  function fmtBig(n){
-    if(!n)return'—';
-    if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';
-    if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';
-    if(n>=1e6)return'$'+(n/1e6).toFixed(1)+'M';
-    return'$'+n.toLocaleString();
-  }
   function pctClass(v){return v>=0?'pct-up':'pct-down'}
   function pctStr(v){if(v==null)return'—';return(v>=0?'+':'')+v.toFixed(2)+'%'}
 
@@ -1363,7 +1367,7 @@ function shareTelegram(){
     if(coin)openCoinModal(coin);
   });
 
-  window.closeCoinModal=function(){overlay.classList.remove('active');document.body.style.overflow=''};
+  window.closeCoinModal=function(){overlay.classList.remove('active');document.body.style.overflow='';if(window._chartInterval){clearInterval(window._chartInterval);window._chartInterval=null;}};
   document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCoinModal()});
 
   window.openCoinModal=function(c){
@@ -1395,6 +1399,16 @@ function shareTelegram(){
     const periods=[{label:'24H',days:1},{label:'7D',days:7},{label:'30D',days:30},{label:'90D',days:90},{label:'1Y',days:365}];
     tabs.innerHTML=periods.map((p,i)=>`<button class="chart-tab${i===1?' active':''}" onclick="loadChart('${c.id}',${p.days},this)">${p.label}</button>`).join('');
     loadChart(c.id,7,tabs.children[1]);
+    // Auto-refresh chart every 10 seconds
+    if(window._chartInterval)clearInterval(window._chartInterval);
+    window._chartCoinId=c.id;
+    window._chartInterval=setInterval(()=>{
+      const activeTab=document.querySelector('.chart-tab.active');
+      if(activeTab&&document.getElementById('coinModal').classList.contains('active')){
+        const days=parseInt(activeTab.textContent==='24H'?1:activeTab.textContent==='7D'?7:activeTab.textContent==='30D'?30:activeTab.textContent==='90D'?90:365);
+        loadChart(window._chartCoinId,days,activeTab);
+      }
+    },10000);
     gtag('event','coin_view',{coin:c.symbol,site:SLUG});
   };
 
