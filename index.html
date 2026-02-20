@@ -823,7 +823,9 @@ if(CRYPTO_SITES.includes(SLUG)){
       const d=await r.json();
       if(!Array.isArray(d)||!d.length)return;
       cryptoData=d;
-      sortData(sortCol);
+      // Always render in market cap order (BTC first) — don't toggle sort on refresh
+      cryptoData.sort((a,b)=>(a.market_cap_rank||999)-(b.market_cap_rank||999));
+      renderTable(cryptoData);
       if(updateBadge)updateBadge.textContent='Updated '+new Date().toLocaleTimeString();
       // Update ticker with top 10
       const tt=document.getElementById('tickerTrack');
