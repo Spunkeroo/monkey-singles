@@ -14,7 +14,7 @@
 <meta property="og:description" content="Honest dating app reviews, matchmaking tips, and AI profile optimizer. Find the right app and the right person. Free dating advice.">
 <meta property="og:site_name" content="MonkeySingles">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@SpunkArt13">
+<meta name="twitter:site" content="@monkey.singles">
 <meta name="twitter:title" content="MonkeySingles — Find Your Person">
 <meta name="twitter:description" content="Honest dating app reviews, matchmaking tips, and AI profile optimizer. Find the right app and the right person. Free dating advice.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https:; img-src 'self' data: https:; connect-src 'self' https:; frame-src https:;">
@@ -589,13 +589,14 @@ a:hover{opacity:.8}
 </div>
 <div class="footer-col">
 <h5>📱 Connect</h5>
-<a href="https://x.com/SpunkArt13" target="_blank">@SpunkArt13 on X</a>
+<a href="mailto:contact@monkey.singles">contact@monkey.singles</a>
 <a href="https://spunkart.com" target="_blank">SpunkArt.com</a>
 <a href="https://magiceden.io/u/SpunkArt" target="_blank">SpunkArt on ME</a>
 </div>
 </div>
 <div class="footer-bottom">
-<p>© 2026 MonkeySingles — Part of the <a href="https://monkey.directory">Monkey Network</a> | <a href="https://spunk.bet">Spunk.Bet</a> | Built by <a href="https://x.com/SpunkArt13" target="_blank">@SpunkArt13</a></p>
+<p><a href="/privacy.html">Privacy Policy</a> | <a href="/privacy.html#terms">Terms</a> | <a href="/privacy.html#affiliate">Affiliate Disclosure</a></p>
+<p>© 2026 MonkeySingles — Part of the <a href="https://monkey.directory">Monkey Network</a> | <a href="https://spunk.bet">Spunk.Bet</a> | Contact: <a href="mailto:contact@monkey.singles">contact@monkey.singles</a></p>
 </div>
 </div>
 </footer>
@@ -869,7 +870,7 @@ function showPrize(prize){
     prizeEl.innerHTML=`🎉 You won! <a href="${aff.url}" target="_blank" data-aff="${aff.aff}" style="color:var(--monkey);text-decoration:underline;font-weight:800">${aff.text}</a>`;
     document.getElementById('spinBtn').disabled=true;
   }
-  const spinShareMsg=encodeURIComponent('I just won a prize spinning the free wheel on '+location.hostname+'! 🎰🐵 Get your free daily spin → '+location.href+' @SpunkArt13');
+  const spinShareMsg=encodeURIComponent('I just won a prize spinning the free wheel on '+location.hostname+'! 🎰🐵 Get your free daily spin → '+location.href);
   shareEl.innerHTML=`<p style="color:var(--dim);font-size:13px;margin-top:12px">Share for a BONUS spin tomorrow! 🎁</p>
     <div style="display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap">
     <a href="https://x.com/intent/tweet?text=${spinShareMsg}" target="_blank" style="padding:8px 20px;background:#000;color:white;border-radius:8px;font-size:13px;font-weight:600" onclick="markShareDone()">Share on X (+1 spin)</a>
@@ -901,7 +902,7 @@ function showPrize(prize){
     'rent':'Free rent calculator + market data for every neighborhood 🏠🐵'
   };
   const msg=shareMessages[SLUG]||'Check out '+document.title+' 🐵';
-  if(shareXEl)shareXEl.href=`https://x.com/intent/tweet?text=${encodeURIComponent(msg+' Free daily spin for rewards! '+refLink+' @SpunkArt13')}`;
+  if(shareXEl)shareXEl.href=`https://x.com/intent/tweet?text=${encodeURIComponent(msg+' Free daily spin for rewards! '+refLink)}`;
 
   // Check if referred
   const p=new URLSearchParams(location.search);
