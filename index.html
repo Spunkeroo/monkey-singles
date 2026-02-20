@@ -226,16 +226,16 @@ a:hover{opacity:.8}
 .trend-card h4{font-size:16px;font-weight:700;margin-bottom:6px;transition:opacity .3s}
 .trend-card p{font-size:13px;color:var(--dim);line-height:1.5}
 
-/* Spin Wheel */
+/* Spin Wheel — Casino Style */
 .spin-section{max-width:600px;margin:0 auto;padding:40px 20px}
-.spin-container{text-align:center;position:relative}
-#spinWheel{max-width:320px;margin:0 auto;display:block}
-.spin-btn{margin-top:16px;padding:14px 40px;background:var(--monkey);color:var(--bg);font-size:18px;font-weight:800;border:none;border-radius:var(--radius);cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:1px}
-.spin-btn:hover{transform:scale(1.05)}
-.spin-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.spin-result{text-align:center;margin-top:20px}
-.spin-prize{font-size:20px;font-weight:800;color:var(--monkey);margin-bottom:12px;padding:16px;background:var(--card);border:2px solid var(--monkey);border-radius:var(--radius)}
-.spin-share a{display:inline-block;margin:4px;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:600}
+.spin-container{text-align:center;position:relative;padding-top:20px}
+#spinWheel{max-width:320px;margin:0 auto;display:block;filter:drop-shadow(0 0 20px rgba(250,204,21,0.15))}
+.spin-btn{margin-top:20px;padding:16px 48px;background:linear-gradient(135deg,#facc15,#f59e0b);color:#1a1a28;font-size:20px;font-weight:900;border:none;border-radius:var(--radius);cursor:pointer;transition:all .2s;text-transform:uppercase;letter-spacing:2px;box-shadow:0 4px 20px rgba(250,204,21,0.3)}
+.spin-btn:hover{transform:scale(1.08);box-shadow:0 6px 28px rgba(250,204,21,0.5)}
+.spin-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.spin-result{text-align:center;margin-top:24px}
+.spin-prize{font-size:18px;font-weight:800;color:var(--monkey);margin-bottom:12px;padding:24px;background:var(--card);border:2px solid var(--monkey);border-radius:var(--radius);line-height:1.5}
+.spin-share a{display:inline-block;margin:4px;padding:10px 20px;border-radius:8px;font-size:14px;font-weight:700}
 
 /* Referral */
 .referral-section{padding:40px 20px}
@@ -869,58 +869,91 @@ searchInput&&searchInput.addEventListener('input',function(){
 });
 
 // ==========================================
-// SPIN WHEEL
+// SPIN WHEEL — Bright, Bold, Casino Style
 // ==========================================
 const prizes=[
-  {text:'Bonus Spin',color:'#facc15',value:'bonus_spin'},
-  {text:'Free Tool Access',color:'#ec4899',value:'tool_access'},
-  {text:'$10 Coinbase',color:'#0052ff',value:'coinbase_bonus'},
-  {text:'Try Again',color:'#555568',value:'try_again'},
-  {text:'Stake Bonus',color:'#1475e1',value:'stake_bonus'},
-  {text:'Ledger Deal',color:'#ff5500',value:'ledger_deal'},
-  {text:'Amazon $5',color:'#ff9900',value:'amazon_deal'},
-  {text:'Spin Tomorrow',color:'#555568',value:'tomorrow'},
+  {text:'STAKE BONUS',color:'#1475e1',value:'stake_bonus',icon:'🎰'},
+  {text:'BONUS SPIN',color:'#facc15',value:'bonus_spin',icon:'🎉'},
+  {text:'SHUFFLE VIP',color:'#7c3aed',value:'shuffle_bonus',icon:'🃏'},
+  {text:'TRY AGAIN',color:'#374151',value:'try_again',icon:'🔄'},
+  {text:'WINNA BONUS',color:'#ff5f1f',value:'winna_bonus',icon:'🏆'},
+  {text:'$10 CRYPTO',color:'#0052ff',value:'coinbase_bonus',icon:'₿'},
+  {text:'STAKE.US',color:'#00c74d',value:'stakeus_bonus',icon:'💰'},
+  {text:'SPIN TOMORROW',color:'#374151',value:'tomorrow',icon:'⏰'},
 ];
 const canvas=document.getElementById('spinWheel');
 const ctx=canvas?canvas.getContext('2d'):null;
-const arc=Math.PI*2/prizes.length;
+const numPrizes=prizes.length;
+const arc=Math.PI*2/numPrizes;
 let spinning=false,spinAngle=0;
 
 function drawWheel(){
   if(!ctx)return;
-  const cx=160,cy=160,r=148;
-  ctx.clearRect(0,0,320,320);
-  // outer ring
-  ctx.beginPath();ctx.arc(cx,cy,r+2,0,Math.PI*2);ctx.fillStyle='#1a1a28';ctx.fill();
+  const W=320,cx=W/2,cy=W/2,r=145;
+  ctx.clearRect(0,0,W,W);
+
+  // Outer glow ring
+  ctx.save();
+  ctx.beginPath();ctx.arc(cx,cy,r+6,0,Math.PI*2);
+  ctx.strokeStyle='rgba(250,204,21,0.3)';ctx.lineWidth=4;ctx.stroke();
+  ctx.restore();
+
+  // Segments — bright vivid fills
   prizes.forEach((p,i)=>{
-    const start=i*arc-Math.PI/2+spinAngle;
+    const startA=i*arc-Math.PI/2+spinAngle;
     ctx.beginPath();ctx.moveTo(cx,cy);
-    ctx.arc(cx,cy,r,start,start+arc);
+    ctx.arc(cx,cy,r,startA,startA+arc);
     ctx.closePath();
-    ctx.fillStyle=typeof p.color==='string'&&p.color.startsWith('#')?p.color:'#8b5cf6';
-    ctx.fill();ctx.strokeStyle='#0a0a10';ctx.lineWidth=2;ctx.stroke();
-    // text
-    ctx.save();ctx.translate(cx,cy);ctx.rotate(start+arc/2);
-    ctx.fillStyle='#fff';ctx.font='bold 13px -apple-system,system-ui,sans-serif';
+    // Gradient fill for depth
+    const grad=ctx.createRadialGradient(cx,cy,10,cx,cy,r);
+    grad.addColorStop(0,p.color+'88');
+    grad.addColorStop(0.5,p.color+'dd');
+    grad.addColorStop(1,p.color);
+    ctx.fillStyle=grad;ctx.fill();
+    // White border between segments
+    ctx.strokeStyle='rgba(255,255,255,0.25)';ctx.lineWidth=2;ctx.stroke();
+
+    // Text — BOLD and legible
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(startA+arc/2);
+    ctx.fillStyle='#fff';
+    ctx.font='900 12px -apple-system,system-ui,sans-serif';
     ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.shadowColor='rgba(0,0,0,0.6)';ctx.shadowBlur=3;
-    ctx.fillText(p.text,r*0.58,0);
+    ctx.shadowColor='rgba(0,0,0,0.8)';ctx.shadowBlur=4;
+    ctx.fillText(p.text,r*0.62,0);
     ctx.shadowBlur=0;ctx.restore();
   });
-  // center circle
-  ctx.beginPath();ctx.arc(cx,cy,18,0,Math.PI*2);
-  ctx.fillStyle='#facc15';ctx.fill();
-  ctx.strokeStyle='#0a0a10';ctx.lineWidth=2;ctx.stroke();
-  ctx.fillStyle='#0a0a10';ctx.font='bold 14px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('🐵',cx,cy);
-  // pointer — triangle at top, pointing DOWN into wheel
+
+  // Tick marks around edge for casino look
+  for(let i=0;i<numPrizes*3;i++){
+    const a=(i/(numPrizes*3))*Math.PI*2+spinAngle;
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(a);
+    ctx.fillStyle=i%3===0?'rgba(250,204,21,0.7)':'rgba(255,255,255,0.2)';
+    ctx.fillRect(r-4,-1,i%3===0?5:3,2);
+    ctx.restore();
+  }
+
+  // Center hub — golden gradient
+  ctx.beginPath();ctx.arc(cx,cy,24,0,Math.PI*2);
+  const cg=ctx.createRadialGradient(cx,cy,2,cx,cy,24);
+  cg.addColorStop(0,'#fde047');cg.addColorStop(0.7,'#facc15');cg.addColorStop(1,'#ca8a04');
+  ctx.fillStyle=cg;ctx.fill();
+  ctx.strokeStyle='#854d0e';ctx.lineWidth=2;ctx.stroke();
+  ctx.fillStyle='#1a1a28';ctx.font='bold 18px system-ui';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('🐵',cx,cy+1);
+
+  // POINTER — large bright triangle at top, OUTSIDE the wheel
+  ctx.save();
   ctx.beginPath();
-  ctx.moveTo(cx,cy-r+18);
-  ctx.lineTo(cx-12,cy-r-12);
-  ctx.lineTo(cx+12,cy-r-12);
+  ctx.moveTo(cx, cy-r+12);      // tip points DOWN into wheel
+  ctx.lineTo(cx-14, cy-r-16);   // left corner above wheel
+  ctx.lineTo(cx+14, cy-r-16);   // right corner above wheel
   ctx.closePath();
   ctx.fillStyle='#facc15';ctx.fill();
-  ctx.strokeStyle='#0a0a10';ctx.lineWidth=2;ctx.stroke();
+  ctx.strokeStyle='#854d0e';ctx.lineWidth=2.5;ctx.stroke();
+  // Pointer glow
+  ctx.shadowColor='#facc15';ctx.shadowBlur=12;
+  ctx.fill();ctx.shadowBlur=0;
+  ctx.restore();
 }
 drawWheel();
 
@@ -937,19 +970,26 @@ function spinWheel(){
   }
   if(spinning)return;spinning=true;
   document.getElementById('spinBtn').disabled=true;
-  const totalRotation=Math.PI*2*8+Math.random()*Math.PI*2;
-  const duration=4000;const start=performance.now();const startAngle=spinAngle;
+
+  // Pick winner first, then calculate exact rotation to land on it
+  const winIdx=Math.floor(Math.random()*numPrizes);
+  // Target angle: center of winning segment at top (pointer position)
+  const segCenter=winIdx*arc+arc/2;
+  const targetAngle=Math.PI*2-(segCenter);
+  const fullRotations=Math.PI*2*(6+Math.floor(Math.random()*4)); // 6-9 full spins
+  const totalRotation=fullRotations+targetAngle-spinAngle%(Math.PI*2);
+
+  const duration=5000;const startTime=performance.now();const startAngle=spinAngle;
   function animate(now){
-    const elapsed=now-start;const progress=Math.min(elapsed/duration,1);
-    const eased=1-Math.pow(1-progress,3);
+    const elapsed=now-startTime;const progress=Math.min(elapsed/duration,1);
+    // Smooth deceleration easing
+    const eased=1-Math.pow(1-progress,4);
     spinAngle=startAngle+totalRotation*eased;
     drawWheel();
     if(progress<1){requestAnimationFrame(animate)}
     else{
       spinning=false;
-      const norm=((spinAngle%(Math.PI*2))+(Math.PI*2))%(Math.PI*2);
-      const idx=(prizes.length-Math.floor(norm/arc)%prizes.length)%prizes.length;
-      const prize=prizes[idx];
+      const prize=prizes[winIdx];
       showPrize(prize);
       if(bonusSpins>0){localStorage.setItem('monkey_bonus_spins_'+SLUG,String(bonusSpins-1))}
       else{localStorage.setItem('monkey_spin_'+SLUG,today)}
@@ -965,35 +1005,35 @@ function showPrize(prize){
   const prizeEl=document.getElementById('spinPrize');
   const shareEl=document.getElementById('spinShare');
   result.style.display='block';
+  // Casino affiliate prizes — HIGH revenue
   const affLinks={
-    'coinbase_bonus':{url:'https://coinbase.com/join/YAGES3X',text:'Claim $10 on Coinbase →',aff:'coinbase'},
-    'stake_bonus':{url:'https://stake.com/?c=MyXSehCn',text:'Claim Stake Bonus →',aff:'stake'},
-    'ledger_deal':{url:'https://shop.ledger.com/?r=0553c9ea1441',text:'Get Ledger Deal →',aff:'ledger'},
-    'amazon_deal':{url:'https://amazon.com/?tag=spunkart-20',text:'Shop Amazon Deal →',aff:'amazon'},
+    'stake_bonus':{url:'https://stake.com/?c=MyXSehCn',text:'🎰 Claim Your Stake.com Bonus →',aff:'stake',bg:'#1475e1'},
+    'shuffle_bonus':{url:'https://shuffle.com?r=q94atl9m05',text:'🃏 Claim Your Shuffle VIP Bonus →',aff:'shuffle',bg:'#7c3aed'},
+    'winna_bonus':{url:'https://winna.com/?r=Spunkeroo',text:'🏆 Claim Your Winna Bonus →',aff:'winna',bg:'#ff5f1f'},
+    'stakeus_bonus':{url:'https://stake.us/?c=L2a8nG6c',text:'💰 Claim Your Stake.us Bonus →',aff:'stakeus',bg:'#00c74d'},
+    'coinbase_bonus':{url:'https://coinbase.com/join/YAGES3X',text:'₿ Get $10 Free Crypto on Coinbase →',aff:'coinbase',bg:'#0052ff'},
   };
   if(prize.value==='bonus_spin'){
-    prizeEl.innerHTML='🎉 You won a BONUS SPIN! Spin again!';
+    prizeEl.innerHTML='<div style="font-size:32px;margin-bottom:8px">🎉</div>BONUS SPIN! Spin again!';
+    prizeEl.style.borderColor='#facc15';prizeEl.style.color='#facc15';
     const bs=parseInt(localStorage.getItem('monkey_bonus_spins_'+SLUG)||'0');
     localStorage.setItem('monkey_bonus_spins_'+SLUG,String(bs+1));
     document.getElementById('spinBtn').disabled=false;
   }else if(prize.value==='try_again'||prize.value==='tomorrow'){
-    prizeEl.innerHTML='Almost! Come back tomorrow for another free spin.';
+    prizeEl.innerHTML='<div style="font-size:24px;margin-bottom:8px">⏰</div>Almost! Come back tomorrow for another free spin.';
     prizeEl.style.borderColor='var(--muted)';prizeEl.style.color='var(--dim)';
-    document.getElementById('spinBtn').disabled=true;
-  }else if(prize.value==='tool_access'){
-    prizeEl.innerHTML='🎉 You unlocked premium tool access for today!';
-    localStorage.setItem('monkey_tool_unlock_'+SLUG,new Date().toDateString());
     document.getElementById('spinBtn').disabled=true;
   }else if(affLinks[prize.value]){
     const aff=affLinks[prize.value];
-    prizeEl.innerHTML=`🎉 You won! <a href="${aff.url}" target="_blank" data-aff="${aff.aff}" style="color:var(--monkey);text-decoration:underline;font-weight:800">${aff.text}</a>`;
+    prizeEl.innerHTML=`<div style="font-size:32px;margin-bottom:8px">${prize.icon}</div>YOU WON!<br><a href="${aff.url}" target="_blank" rel="noopener sponsored" data-aff="${aff.aff}" style="display:inline-block;margin-top:12px;padding:14px 32px;background:${aff.bg};color:white;border-radius:10px;font-size:16px;font-weight:900;text-decoration:none;letter-spacing:0.5px">${aff.text}</a>`;
+    prizeEl.style.borderColor=aff.bg;prizeEl.style.color='#fff';
     document.getElementById('spinBtn').disabled=true;
   }
-  const spinShareMsg=encodeURIComponent('I just won a prize spinning the free wheel on '+location.hostname+'! 🎰🐵 Get your free daily spin → '+location.href);
-  shareEl.innerHTML=`<p style="color:var(--dim);font-size:13px;margin-top:12px">Share for a BONUS spin tomorrow! 🎁</p>
+  const spinShareMsg=encodeURIComponent(prize.icon+' I just won '+prize.text+' on '+location.hostname+'! 🎰🐵 Get your free daily spin → '+location.href);
+  shareEl.innerHTML=`<p style="color:var(--dim);font-size:13px;margin-top:16px">Share for a BONUS spin tomorrow!</p>
     <div style="display:flex;justify-content:center;gap:8px;margin-top:8px;flex-wrap:wrap">
-    <a href="https://x.com/intent/tweet?text=${spinShareMsg}" target="_blank" style="padding:8px 20px;background:#000;color:white;border-radius:8px;font-size:13px;font-weight:600" onclick="markShareDone()">Share on X (+1 spin)</a>
-    <button onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';markShareDone()" style="padding:8px 20px;background:var(--accent);color:var(--bg);border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer">Copy Link (+1 spin)</button>
+    <a href="https://x.com/intent/tweet?text=${spinShareMsg}" target="_blank" style="padding:10px 24px;background:#000;color:white;border-radius:8px;font-size:14px;font-weight:700" onclick="markShareDone()">Share on X (+1 spin)</a>
+    <button onclick="navigator.clipboard.writeText(location.href);this.textContent='Copied!';markShareDone()" style="padding:10px 24px;background:var(--accent);color:var(--bg);border-radius:8px;font-size:14px;font-weight:700;border:none;cursor:pointer">Copy Link (+1 spin)</button>
     </div>`;
 }
 
