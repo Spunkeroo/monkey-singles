@@ -367,7 +367,13 @@ a:hover{opacity:.8}
   #trendingContent{grid-template-columns:1fr}
   .trend-card{padding:16px}
   img{max-width:100%;height:auto}
-  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .crypto-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .crypto-table{min-width:400px}
+  .crypto-table .coin-cell{min-width:120px}
+  .crypto-table .coin-name{font-size:12px}
+  .crypto-table .coin-sym{font-size:10px}
+  .crypto-table .coin-cell img{width:20px;height:20px}
+  .crypto-table .price-val{min-width:70px}
 }
 /* Responsive — Small Phone */
 @media(max-width:480px){
