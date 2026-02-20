@@ -293,18 +293,115 @@ a:hover{opacity:.8}
 .sticky-cta.show{bottom:0}
 .sticky-btn{padding:8px 20px;background:var(--accent);color:var(--bg);font-size:13px;font-weight:700;border-radius:8px;white-space:nowrap}
 
-/* Responsive */
+/* Responsive — Tablet */
 @media(max-width:768px){
-  .header{flex-direction:column;align-items:flex-start}
-  .header-search{max-width:100%;width:100%}
-  .hero{padding:40px 20px}
+  .header{flex-direction:column;align-items:flex-start;padding:16px 12px 0}
+  .header-search{max-width:100%;width:100%;min-width:0}
+  .header-brand{gap:8px}
+  .monkey-logo{width:36px;height:36px}
+  .header-text h1{font-size:18px}
+  .hero{padding:40px 16px}
+  .hero h2{font-size:clamp(28px,5vw,48px)}
+  .hero p{font-size:16px;padding:0 8px}
   .hero-stats{gap:24px}
+  .hero-cta{width:100%;justify-content:center;padding:14px 24px}
   .sections-grid,.tools-grid{grid-template-columns:1fr}
-  .footer-grid{grid-template-columns:repeat(2,1fr)}
+  .section-card{padding:20px}
+  .tool-card{padding:24px}
+  .tool-input-wrap{flex-direction:column}
+  .tool-go{width:100%;text-align:center}
+  .faq{padding:40px 12px}
+  .faq-q{padding:16px;font-size:14px}
+  .faq-a.open{padding:0 16px 16px}
+  .newsletter{padding:40px 12px}
+  .newsletter-box{padding:28px 16px}
+  .newsletter-box h3{font-size:20px}
+  .newsletter-box .nl-perks{flex-direction:column;align-items:center;gap:8px}
+  .newsletter-box iframe{max-width:100%}
+  .footer-grid{grid-template-columns:repeat(2,1fr);gap:20px}
+  .footer{padding:32px 12px}
+  .network-bar{padding:6px 8px}
+  .network-bar-inner{gap:8px;padding:0 8px;flex-wrap:wrap;justify-content:center}
+  .network-bar a{font-size:10px;padding:2px 6px}
+  .crypto-ticker{height:32px}
+  .ticker-item{font-size:11px;gap:4px}
+  .ticker-item img{width:14px;height:14px}
+  .crypto-section{padding:16px 12px}
+  .crypto-header{flex-direction:column;align-items:flex-start}
+  .crypto-header h3{font-size:20px}
+  .crypto-search{width:100%}
+  .crypto-table .hide-mobile{display:none}
+  .crypto-table td,.crypto-table th{padding:8px 6px;font-size:12px}
+  .crypto-scroll{max-height:500px}
+  .crypto-cta-row{flex-direction:column;align-items:stretch}
+  .crypto-cta-row a{text-align:center;width:100%}
+  .live-data{margin:12px 0}
+  .price-card{padding:12px;flex-direction:column;gap:8px;align-items:flex-start}
+  .price-card .price{font-size:16px}
+  .spin-section{padding:30px 12px}
+  #spinWheel{max-width:280px}
+  .spin-btn{padding:14px 36px;font-size:16px;width:100%}
+  .spin-prize{font-size:15px;padding:16px}
+  .referral-section{padding:30px 12px}
+  .ref-link-box{flex-direction:column}
+  .ref-input{text-align:center;font-size:13px}
+  .ref-copy-btn{text-align:center;padding:12px}
+  .affiliate-bar{padding:16px 12px}
+  .affiliate-links{gap:8px}
+  .affiliate-links a{padding:6px 12px;font-size:12px;flex:1 1 auto;text-align:center;min-width:120px}
+  .aff-banner{padding:0 12px}
+  .aff-banner-inner{flex-direction:column;text-align:center;padding:16px}
+  .aff-banner-btn{width:100%;text-align:center;justify-content:center}
+  .daily-bar{padding:8px 12px}
+  .daily-bar-inner{flex-direction:column;gap:10px;padding:12px 16px}
+  .sticky-cta .sticky-btn{font-size:12px;padding:6px 14px}
+  .coin-modal{padding:16px;max-width:95vw}
+  .coin-modal-header h3{font-size:18px}
+  .coin-stats{grid-template-columns:repeat(2,1fr);gap:8px}
+  .coin-stat .val{font-size:14px}
+  .chart-tabs{flex-wrap:wrap;gap:6px}
+  .chart-tab{padding:5px 10px;font-size:11px}
+  .coin-modal-cta{flex-direction:column}
+  .coin-modal-cta a{text-align:center;width:100%}
+  .trending{padding:16px 12px}
+  #trendingContent{grid-template-columns:1fr}
+  .trend-card{padding:16px}
+  img{max-width:100%;height:auto}
+  table{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
 }
+/* Responsive — Small Phone */
 @media(max-width:480px){
-  .hero h2{font-size:32px}
+  .hero h2{font-size:26px;letter-spacing:-1px}
+  .hero p{font-size:14px}
+  .hero-stats{gap:16px}
+  .hero-stat .num{font-size:22px}
+  .hero-stat .label{font-size:10px}
+  .header-text h1{font-size:16px}
+  .header-text p{font-size:11px}
+  .sections h3,.tools h3,.faq h3{font-size:22px}
+  .section-card h4{font-size:16px}
+  .section-card p{font-size:13px}
+  .section-card .icon{font-size:28px}
+  .tool-card .tool-icon{font-size:36px}
+  .tool-card h4{font-size:18px}
   .footer-grid{grid-template-columns:1fr}
+  .footer-col h5{font-size:12px}
+  .footer-col a{font-size:12px}
+  .footer-bottom p{font-size:11px}
+  .network-bar-inner{gap:6px}
+  .network-bar a{font-size:9px;padding:2px 5px}
+  #spinWheel{max-width:240px}
+  .spin-btn{font-size:14px;padding:12px 24px}
+  .crypto-table td,.crypto-table th{padding:6px 4px;font-size:11px}
+  .coin-modal{padding:12px}
+  .coin-stats{grid-template-columns:1fr 1fr}
+  .coin-stat{padding:10px}
+  .newsletter-box{padding:20px 12px}
+  .newsletter-box h3{font-size:18px}
+  .newsletter-box .nl-sub{font-size:13px}
+  .affiliate-links a{min-width:100px;font-size:11px;padding:5px 10px}
+  .daily-bar-inner .db-item{font-size:12px}
+  .tip-btn{padding:0.35rem 0.8rem;font-size:0.75rem}
 }
 </style>
 </head>
