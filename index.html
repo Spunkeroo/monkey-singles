@@ -14,15 +14,15 @@
 <meta property="og:description" content="Honest dating app reviews, matchmaking tips, and AI profile optimizer. Find the right app and the right person. Free dating advice.">
 <meta property="og:site_name" content="MonkeySingles">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@monkey.singles">
+<meta name="twitter:site" content="@SpunkArt13">
 <meta name="twitter:title" content="MonkeySingles — Find Your Person">
 <meta name="twitter:description" content="Honest dating app reviews, matchmaking tips, and AI profile optimizer. Find the right app and the right person. Free dating advice.">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https:; img-src 'self' data: https:; connect-src 'self' https:; frame-src https:;">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="X-Content-Type-Options" content="nosniff">
 <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-<meta property="og:image" content="https://monkey.singles/og.svg">
-<meta name="twitter:image" content="https://monkey.singles/og.svg">
+<meta property="og:image" content="https://monkey.singles/og-image.png">
+<meta name="twitter:image" content="https://monkey.singles/og-image.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg%20viewBox='0%200%20100%20100'%20xmlns='http://www.w3.org/2000/svg'%20class='monkey-logo'%3E%20%20%3Cdefs%3E%20%20%20%20%3Cfilter%20id='g'%3E%3CfeGaussianBlur%20stdDeviation='2'%20result='b'/%3E%3CfeMerge%3E%3CfeMergeNode%20in='b'/%3E%3CfeMergeNode%20in='b'/%3E%3CfeMergeNode%20in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%20%20%20%20%3Cfilter%20id='eg'%3E%3CfeGaussianBlur%20stdDeviation='3.5'%20result='b'/%3E%3CfeMerge%3E%3CfeMergeNode%20in='b'/%3E%3CfeMergeNode%20in='b'/%3E%3CfeMergeNode%20in='b'/%3E%3CfeMergeNode%20in='SourceGraphic'/%3E%3C/feMerge%3E%3C/filter%3E%20%20%3C/defs%3E%20%20%3C!--%20Ears%20--%3E%20%20%3Ccircle%20cx='15'%20cy='48'%20r='11'%20fill='none'%20stroke='%23ff6a00'%20stroke-width='2.5'%20filter='url(%23g)'/%3E%20%20%3Ccircle%20cx='85'%20cy='48'%20r='11'%20fill='none'%20stroke='%23ff6a00'%20stroke-width='2.5'%20filter='url(%23g)'/%3E%20%20%3C!--%20Head%20--%3E%20%20%3Ccircle%20cx='50'%20cy='52'%20r='35'%20fill='none'%20stroke='%23ff6a00'%20stroke-width='2.5'%20filter='url(%23g)'/%3E%20%20%3C!--%20Eyes%20—%20neon%20green%20glow%20--%3E%20%20%3Ccircle%20cx='38'%20cy='46'%20r='6'%20fill='%2300ff66'%20filter='url(%23eg)'/%3E%20%20%3Ccircle%20cx='62'%20cy='46'%20r='6'%20fill='%2300ff66'%20filter='url(%23eg)'/%3E%20%20%3Ccircle%20cx='38'%20cy='46'%20r='2'%20fill='%23111'/%3E%20%20%3Ccircle%20cx='62'%20cy='46'%20r='2'%20fill='%23111'/%3E%20%20%3C!--%20Nose%20--%3E%20%20%3Cellipse%20cx='50'%20cy='60'%20rx='4'%20ry='3'%20fill='none'%20stroke='%23ff6a00'%20stroke-width='2'%20filter='url(%23g)'/%3E%20%20%3C!--%20Smile%20--%3E%20%20%3Cpath%20d='M42%2068%20Q50%2076%2058%2068'%20fill='none'%20stroke='%23ff6a00'%20stroke-width='2'%20stroke-linecap='round'%20filter='url(%23g)'/%3E%3C/svg%3E">
 <link rel="dns-prefetch" href="https://www.googletagmanager.com">
 <link rel="dns-prefetch" href="https://api.coingecko.com">
@@ -78,6 +78,16 @@ a:hover{opacity:.8}
 .ticker-item .t-down{color:#ef4444}
 @keyframes tickerScroll{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
 .network-bar .sep{color:var(--muted);font-size:10px}
+
+/* Tip Button */
+.tip-btn{background:linear-gradient(135deg,#facc15,#f59e0b);color:#000;border:none;padding:0.45rem 1.1rem;border-radius:999px;font-weight:800;font-size:0.82rem;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:6px;box-shadow:0 0 12px rgba(250,204,21,0.4);transition:all .2s;white-space:nowrap}
+.tip-btn:hover{box-shadow:0 0 20px rgba(250,204,21,0.7);transform:scale(1.05)}
+.tip-icon{display:inline-block;animation:tipPulse 2s infinite}
+@keyframes tipPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+
+/* Tip Modal Overlay */
+.modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:10000;opacity:0;pointer-events:none;transition:opacity .3s}
+.modal-overlay.active{opacity:1;pointer-events:all}
 
 /* Header */
 .header{max-width:1200px;margin:0 auto;padding:20px 20px 0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
@@ -320,6 +330,8 @@ a:hover{opacity:.8}
 <span class="sep">|</span>
 <a href="https://spunk.bet" target="_blank" style="border-color:#ccff00;color:#ccff00">Spunk.Bet</a>
 <a href="https://predict.pics" target="_blank" style="border-color:#a855f7;color:#a855f7">Predict</a>
+<a href="https://aliens.today" target="_blank" style="border-color:#ff6a00;color:#ff6a00">Aliens</a>
+<a href="https://sell.party" target="_blank" style="border-color:#f59e0b;color:#f59e0b">Sell Party</a>
 </div>
 </nav>
 
@@ -355,6 +367,7 @@ a:hover{opacity:.8}
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35" stroke-linecap="round"/></svg>
 <input type="text" id="searchInput" placeholder="Search MonkeySingles..." aria-label="Search">
 </div>
+<a href="#" class="tip-btn" onclick="event.preventDefault();document.getElementById('tipModal').classList.add('active');document.body.style.overflow='hidden'"><span class="tip-icon">🧡</span> Tip</a>
 </header>
 
 <!-- Live Crypto Prices — at top for report/investments -->
@@ -643,6 +656,7 @@ a:hover{opacity:.8}
 <a href="https://predict.codes" target="_blank">Predict.codes</a>
 <a href="https://predict.mom" target="_blank">Predict.mom</a>
 <a href="https://predict.gay" target="_blank">Predict.gay</a>
+<a href="https://aliens.today" target="_blank">Aliens.today</a>
 </div>
 <div class="footer-col">
 <h5>🤝 Partners</h5>
@@ -668,6 +682,7 @@ a:hover{opacity:.8}
 <div class="footer-bottom">
 <p><a href="/privacy.html">Privacy Policy</a> | <a href="/privacy.html#terms">Terms</a> | <a href="/privacy.html#affiliate">Affiliate Disclosure</a></p>
 <p>© 2026 MonkeySingles — Part of the <a href="https://monkey.directory">Monkey Network</a> | <a href="https://spunk.bet">Spunk.Bet</a> | Contact: <a href="mailto:contact@monkey.singles">contact@monkey.singles</a></p>
+<p style="margin-top:8px"><a href="#" class="tip-btn" onclick="event.preventDefault();document.getElementById('tipModal').classList.add('active');document.body.style.overflow='hidden'" style="font-size:0.75rem;padding:0.35rem 0.9rem"><span class="tip-icon">🧡</span> Tip Us</a></p>
 </div>
 </div>
 </footer>
@@ -683,6 +698,7 @@ window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}
 gtag('js',new Date());gtag('config','G-GVNL11PEGP',{page_title:'MonkeySingles',page_location:location.href});
 requestIdleCallback(()=>{const s=document.createElement('script');s.src='https://www.googletagmanager.com/gtag/js?id=G-GVNL11PEGP';s.async=true;document.head.appendChild(s)},
 {timeout:3000});
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,"clarity","script","pn0x1z2y3w");
 
 const SLUG='singles';
 const FB_URL='https://predict-network-ec767-default-rtdb.firebaseio.com';
@@ -1495,6 +1511,45 @@ function shareTelegram(){
   };
 })();
 </script>
+
+<!-- Tip Modal -->
+<div class="modal-overlay" id="tipModal" onclick="if(event.target===this){this.classList.remove('active');document.body.style.overflow=''}">
+<div style="background:#0e0e16;border:1px solid #1a1a28;border-radius:16px;padding:28px 24px;max-width:420px;width:90%;max-height:85vh;overflow-y:auto;position:relative">
+<button onclick="document.getElementById('tipModal').classList.remove('active');document.body.style.overflow=''" style="position:absolute;top:12px;right:16px;background:none;border:none;color:#888;font-size:24px;cursor:pointer">&times;</button>
+<h3 style="text-align:center;font-size:1.2rem;margin-bottom:4px">🧡 Support Our Work</h3>
+<p style="text-align:center;font-size:0.8rem;color:#888;margin-bottom:20px">Love what we're building? Tips keep everything free.<br>Powered by <a href="https://spunk.bet" target="_blank" style="color:#facc15">Spunk.bet</a></p>
+
+<div style="font-size:0.7rem;color:#facc15;font-weight:700;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Crypto</div>
+
+<div style="margin-bottom:12px">
+<div style="font-size:0.72rem;color:#f7931a;font-weight:700;margin-bottom:3px">&#8383; Bitcoin (BTC)</div>
+<div onclick="navigator.clipboard.writeText('bc1qr4zcdh9wz26gtn4pqz9c8wmxwalpjut8fxzsfn').then(()=>{this.querySelector('.cp').textContent='Copied!';setTimeout(()=>this.querySelector('.cp').textContent='Copy',2000)})" style="background:#0a0a10;border:1px solid #1a1a28;border-radius:8px;padding:8px 10px;font-size:0.65rem;font-family:monospace;cursor:pointer;display:flex;justify-content:space-between;align-items:center;word-break:break-all;color:#e8e8f0">
+<span>bc1qr4zcdh9wz26gtn4pqz9c8wmxwalpjut8fxzsfn</span><span class="cp" style="color:#facc15;font-weight:700;margin-left:8px;white-space:nowrap">Copy</span>
+</div></div>
+
+<div style="margin-bottom:12px">
+<div style="font-size:0.72rem;color:#627eea;font-weight:700;margin-bottom:3px">&#926; Ethereum (ETH)</div>
+<div onclick="navigator.clipboard.writeText('0xD2aC89253b5F20f5b03b5B591297Fa4FCC37d41c').then(()=>{this.querySelector('.cp').textContent='Copied!';setTimeout(()=>this.querySelector('.cp').textContent='Copy',2000)})" style="background:#0a0a10;border:1px solid #1a1a28;border-radius:8px;padding:8px 10px;font-size:0.65rem;font-family:monospace;cursor:pointer;display:flex;justify-content:space-between;align-items:center;word-break:break-all;color:#e8e8f0">
+<span>0xD2aC89253b5F20f5b03b5B591297Fa4FCC37d41c</span><span class="cp" style="color:#facc15;font-weight:700;margin-left:8px;white-space:nowrap">Copy</span>
+</div></div>
+
+<div style="margin-bottom:16px">
+<div style="font-size:0.72rem;color:#9945ff;font-weight:700;margin-bottom:3px">&#9678; Solana (SOL)</div>
+<div onclick="navigator.clipboard.writeText('Cds2aUuhyJa4NaZo7JER7LakW4VmmfnqVixHusrKKZsm').then(()=>{this.querySelector('.cp').textContent='Copied!';setTimeout(()=>this.querySelector('.cp').textContent='Copy',2000)})" style="background:#0a0a10;border:1px solid #1a1a28;border-radius:8px;padding:8px 10px;font-size:0.65rem;font-family:monospace;cursor:pointer;display:flex;justify-content:space-between;align-items:center;word-break:break-all;color:#e8e8f0">
+<span>Cds2aUuhyJa4NaZo7JER7LakW4VmmfnqVixHusrKKZsm</span><span class="cp" style="color:#facc15;font-weight:700;margin-left:8px;white-space:nowrap">Copy</span>
+</div></div>
+
+<div style="font-size:0.7rem;color:#facc15;font-weight:700;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Fiat &amp; Apps</div>
+
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+<a href="https://paypal.me/SpunkArt13" target="_blank" rel="noopener" style="background:#0070ba;color:#fff;padding:10px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700;font-size:0.8rem;display:flex;align-items:center;justify-content:center;gap:6px">PayPal</a>
+<a href="https://venmo.com/SpunkArt13" target="_blank" rel="noopener" style="background:#3d95ce;color:#fff;padding:10px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700;font-size:0.8rem;display:flex;align-items:center;justify-content:center;gap:6px">Venmo</a>
+<a href="https://cash.app/$SpunkArt13" target="_blank" rel="noopener" style="background:#00d632;color:#fff;padding:10px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700;font-size:0.8rem;display:flex;align-items:center;justify-content:center;gap:6px">Cash App</a>
+<a href="https://ko-fi.com/SpunkArt13" target="_blank" rel="noopener" style="background:#ff5e5b;color:#fff;padding:10px;border-radius:8px;text-align:center;text-decoration:none;font-weight:700;font-size:0.8rem;display:flex;align-items:center;justify-content:center;gap:6px">Ko-fi</a>
+</div>
+
+<p style="text-align:center;font-size:0.7rem;color:#555">Every tip supports development, prizes &amp; keeping everything free.</p>
+</div></div>
 
 </body>
 </html>
