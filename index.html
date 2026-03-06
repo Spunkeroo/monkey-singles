@@ -1046,28 +1046,14 @@ if(CRYPTO_SITES.includes(SLUG)){
   const grid=document.getElementById('priceGrid');
   if(livePanel&&grid){
     async function loadPrices(){
-      const coins=[{id:'bitcoin',name:'Bitcoin',sym:'BTC',cc:'bitcoin'},{id:'ethereum',name:'Ethereum',sym:'ETH',cc:'ethereum'},{id:'solana',name:'Solana',sym:'SOL',cc:'solana'},{id:'dogecoin',name:'Dogecoin',sym:'DOGE',cc:'dogecoin'},{id:'cardano',name:'Cardano',sym:'ADA',cc:'cardano'},{id:'polkadot',name:'Polkadot',sym:'DOT',cc:'polkadot'}];
-      let d = null;
-      // API 1: CoinGecko
-      if (!d) try {
+      try{
         const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,dogecoin,cardano,polkadot&vs_currencies=usd&include_24hr_change=true');
-        if(r.ok){const j=await r.json();if(j&&j.bitcoin)d=j;}
-      } catch(e){}
-      // API 2: CoinCap
-      if (!d) try {
-        const r=await fetch('https://api.coincap.io/v2/assets?ids=bitcoin,ethereum,solana,dogecoin,cardano,polkadot');
-        if(r.ok){const j=await r.json();if(j&&j.data){d={};j.data.forEach(c=>{d[c.id]={usd:parseFloat(c.priceUsd),usd_24h_change:parseFloat(c.changePercent24Hr)};});}}
-      } catch(e){}
-      // API 3: Coinpaprika
-      if (!d) try {
-        const ids=[['btc-bitcoin','bitcoin'],['eth-ethereum','ethereum'],['sol-solana','solana'],['doge-dogecoin','dogecoin'],['ada-cardano','cardano'],['dot-polkadot','polkadot']];
-        const results=await Promise.all(ids.map(([pid])=>fetch('https://api.coinpaprika.com/v1/tickers/'+pid+'?quotes=USD').then(r=>r.json())));
-        d={};ids.forEach(([,key],i)=>{if(results[i]&&results[i].quotes&&results[i].quotes.USD)d[key]={usd:results[i].quotes.USD.price,usd_24h_change:results[i].quotes.USD.percent_change_24h};});
-        if(!d.bitcoin)d=null;
-      } catch(e){}
-      if(!d){grid.innerHTML='<div style="text-align:center;grid-column:1/-1;color:var(--muted);font-size:13px;padding:12px">Live prices temporarily unavailable</div>';return;}
-      livePanel.style.display='block';
-      grid.innerHTML=coins.map(c=>{const p=d[c.id];if(!p)return'';const price=p.usd;const change=p.usd_24h_change||0;const up=change>=0;return`<div class="price-card"><div><div class="coin">${c.sym}</div><div style="font-size:11px;color:var(--muted)">${c.name}</div></div><div style="text-align:right"><div class="price">$${price.toLocaleString(undefined,{maximumFractionDigits:price>100?0:2})}</div><span class="change ${up?'up':'down'}">${up?'+':''}${change.toFixed(1)}%</span></div></div>`}).join('');
+        if(r.status===429){setTimeout(loadPrices,120000);return}
+        const d=await r.json();if(!d.bitcoin)return;
+        livePanel.style.display='block';
+        const coins=[{id:'bitcoin',name:'Bitcoin',sym:'BTC'},{id:'ethereum',name:'Ethereum',sym:'ETH'},{id:'solana',name:'Solana',sym:'SOL'},{id:'dogecoin',name:'Dogecoin',sym:'DOGE'},{id:'cardano',name:'Cardano',sym:'ADA'},{id:'polkadot',name:'Polkadot',sym:'DOT'}];
+        grid.innerHTML=coins.map(c=>{const p=d[c.id];if(!p)return'';const price=p.usd;const change=p.usd_24h_change||0;const up=change>=0;return`<div class="price-card"><div><div class="coin">${c.sym}</div><div style="font-size:11px;color:var(--muted)">${c.name}</div></div><div style="text-align:right"><div class="price">$${price.toLocaleString(undefined,{maximumFractionDigits:price>100?0:2})}</div><span class="change ${up?'up':'down'}">${up?'+':''}${change.toFixed(1)}%</span></div></div>`}).join('');
+      }catch(e){grid.innerHTML='<div style="text-align:center;grid-column:1/-1;color:var(--muted);font-size:13px;padding:12px">Live prices temporarily unavailable — <a href="https://www.coingecko.com/" target="_blank" style="color:var(--accent)">view on CoinGecko</a></div>'}
     }
     requestIdleCallback(()=>{loadPrices();setInterval(loadPrices,10000)},{timeout:2000});
   }
